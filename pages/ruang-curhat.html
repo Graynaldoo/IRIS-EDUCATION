@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Curhat - Dashboard</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <div class="logo">
+                        <div class="logo-outer">
+                            <div class="logo-inner">
+                                <span>H</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="index.html" class="menu-item">
+                    <i class="icon">📊</i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="tryout-saya.html" class="menu-item">
+                    <i class="icon">📝</i>
+                    <span>TryOut Saya</span>
+                </a>
+                <a href="event-saya.html" class="menu-item">
+                    <i class="icon">🎯</i>
+                    <span>Event Saya</span>
+                </a>
+                <a href="ruang-curhat.html" class="menu-item active">
+                    <i class="icon">💬</i>
+                    <span>Ruang Curhat</span>
+                </a>
+                <a href="beli-paket.html" class="menu-item">
+                    <i class="icon">🛍️</i>
+                    <span>Beli Paket</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="icon">📜</i>
+                    <span>Riwayat</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-profile">
+                <img src="https://via.placeholder.com/40" alt="Profile">
+                <div class="profile-info">
+                    <div class="profile-name">Bagas Purnomo</div>
+                    <div class="profile-role">Admin Sekolah</div>
+                </div>
+            </div>
+
+            <div class="sidebar-illustration">
+                <img src="https://via.placeholder.com/120x100" alt="Illustration">
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <h1>Ruang Curhat</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                        <button class="btn-search">🔍</button>
+                    </div>
+                    <button class="btn-icon">🏠</button>
+                    <button class="btn-icon">💬</button>
+                </div>
+            </header>
+
+            <div class="curhat-section">
+                <!-- Post Form -->
+                <div class="curhat-card post-form">
+                    <h2>Ruang Curhat</h2>
+                    <div class="form-group">
+                        <textarea 
+                            placeholder="Apa yang kamu rasakan hari ini? Sharing dengan teman!"
+                            rows="3"
+                        ></textarea>
+                        <div class="form-actions">
+                            <button class="btn-icon-only">📷</button>
+                            <div class="action-right">
+                                <span class="char-count">0/280</span>
+                                <button class="btn-primary">Posting</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post Item 1 -->
+                <div class="curhat-card post-item">
+                    <div class="post-header">
+                        <img src="https://via.placeholder.com/40" alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name">Bagas Purnomo</div>
+                            <div class="post-id">ID: 013456</div>
+                        </div>
+                        <button class="btn-more">⋮</button>
+                        <button class="btn-icon-only">😊</button>
+                    </div>
+
+                    <div class="post-images">
+                        <img src="https://via.placeholder.com/280x200" alt="Post image 1">
+                        <img src="https://via.placeholder.com/280x200" alt="Post image 2">
+                    </div>
+
+                    <div class="post-content">
+                        <p>Hari ini aku nyoba belajar bareng temen nih...</p>
+                        <p>Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu.</p>
+                        <a href="#" class="read-more">Baca selengkapnya...</a>
+                    </div>
+
+                    <div class="post-actions">
+                        <button class="action-btn">
+                            <span class="icon">❤️</span>
+                            <span>122 menyukai postingan</span>
+                        </button>
+                        <button class="action-btn">
+                            <span class="icon">💬</span>
+                            <span>122 Komentar</span>
+                        </button>
+                        <button class="action-btn">
+                            <span class="icon">🔖</span>
+                            <span>43 Ket simpanan</span>
+                        </button>
+                        <button class="btn-bookmark-only">🔖</button>
+                    </div>
+                </div>
+
+                <!-- Post Item 2 -->
+                <div class="curhat-card post-item">
+                    <div class="post-header">
+                        <img src="https://via.placeholder.com/40" alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name">Bagas Purnomo</div>
+                            <div class="post-id">ID: 013456</div>
+                        </div>
+                        <button class="btn-more">⋮</button>
+                        <button class="btn-icon-only">😊</button>
+                    </div>
+
+                    <div class="post-content">
+                        <p>Hari ini aku nyoba belajar bareng temen nih...</p>
+                        <p>Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
