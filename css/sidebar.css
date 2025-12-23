@@ -1,5 +1,15 @@
 /* ========================================
-   SIDEBAR
+   CONTAINER LAYOUT
+======================================== */
+
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ========================================
+   SIDEBAR - FIXED POSITION
 ======================================== */
 
 .sidebar {
@@ -9,10 +19,34 @@
     transition: width 0.3s ease;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow-y: auto;
 }
 
 .sidebar.collapsed {
     width: 80px;
+}
+
+/* Custom Scrollbar untuk Sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
 /* ========================================
@@ -21,6 +55,7 @@
 
 .sidebar-header {
     padding: 20px;
+    flex-shrink: 0;
 }
 
 .logo-section {
@@ -182,6 +217,7 @@
 .profile-section {
     padding: 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
 }
 
 .profile-info {
@@ -231,4 +267,65 @@
 
 .sidebar.collapsed .book-illustration {
     display: none;
+}
+
+/* ========================================
+   MAIN CONTENT - SCROLLABLE AREA
+======================================== */
+
+.main-content {
+    margin-left: 260px;
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px;
+    background: #f3f4f6;
+    transition: margin-left 0.3s ease;
+}
+
+/* Adjust main content when sidebar is collapsed */
+.sidebar.collapsed ~ .main-content {
+    margin-left: 80px;
+}
+
+/* Custom Scrollbar untuk Main Content */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: #e5e7eb;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 260px;
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar.collapsed ~ .main-content {
+        margin-left: 0;
+    }
 }
