@@ -1,0 +1,234 @@
+/* ========================================
+   SIDEBAR
+======================================== */
+
+.sidebar {
+    width: 260px;
+    background: linear-gradient(to bottom, #581c87, #6b21a8, #7c3aed);
+    color: white;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+/* ========================================
+   SIDEBAR HEADER
+======================================== */
+
+.sidebar-header {
+    padding: 20px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Logo */
+.logo {
+    position: relative;
+    width: 48px;
+    height: 48px;
+}
+
+.logo-outer {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6, #7c3aed);
+    border-radius: 12px;
+    transform: rotate(12deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-inner {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    border-radius: 8px;
+    transform: rotate(-12deg);
+}
+
+.logo-sparkle {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 12px;
+}
+
+/* Bell Icon */
+.bell-icon {
+    position: relative;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.bell-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bell-icon::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #fbbf24;
+    border-radius: 50%;
+    top: 6px;
+    right: 6px;
+}
+
+.sidebar.collapsed .bell-icon {
+    display: none;
+}
+
+/* Toggle Button */
+.toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.toggle-line {
+    flex: 1;
+    height: 1px;
+    background: #6b21a8;
+}
+
+/* ========================================
+   MENU
+======================================== */
+
+.menu {
+    flex: 1;
+    padding: 0 12px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: white;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item.active {
+    background: #ec4899;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.menu-label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.active-dot {
+    width: 8px;
+    height: 8px;
+    background: #fbbf24;
+    border-radius: 50%;
+}
+
+/* Collapsed State */
+.sidebar.collapsed .menu-label {
+    display: none;
+}
+
+.sidebar.collapsed .menu-item {
+    justify-content: center;
+}
+
+.sidebar.collapsed .active-dot {
+    display: none;
+}
+
+/* ========================================
+   PROFILE SECTION
+======================================== */
+
+.profile-section {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #a78bfa;
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-role {
+    font-size: 12px;
+    color: #d8b4fe;
+}
+
+.book-illustration {
+    height: 120px;
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Collapsed Profile */
+.sidebar.collapsed .profile-section {
+    padding: 12px;
+}
+
+.sidebar.collapsed .profile-info {
+    justify-content: center;
+}
+
+.sidebar.collapsed .profile-details {
+    display: none;
+}
+
+.sidebar.collapsed .book-illustration {
+    display: none;
+}

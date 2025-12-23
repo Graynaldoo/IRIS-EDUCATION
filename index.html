@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Home</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <div class="logo">
+                        <div class="logo-outer">
+                            <div class="logo-inner"></div>
+                        </div>
+                        <div class="logo-sparkle">✦</div>
+                    </div>
+                    <div class="bell-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleSidebar()">
+                    <div class="toggle-line"></div>
+                    <svg id="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <div class="toggle-line"></div>
+                </button>
+            </div>
+
+            <nav class="menu">
+                <a href="index.html" class="menu-item active">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span class="menu-label">Dashboard</span>
+                    <span class="active-dot"></span>
+                </a>
+
+                <a href="pages/tryout-saya.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                    <span class="menu-label">TryOut Saya</span>
+                </a>
+
+                <a href="pages/event-saya.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span class="menu-label">Event Saya</span>
+                </a>
+
+                <a href="pages/ruang-curhat.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="menu-label">Ruang Curhat</span>
+                </a>
+
+                <a href="pages/beli-paket.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span class="menu-label">Beli Paket</span>
+                </a>
+
+                <a href="pages/riwayat.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="menu-label">Riwayat</span>
+                </a>
+            </nav>
+
+            <div class="profile-section">
+                <div class="profile-info">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile" class="profile-avatar">
+                    <div class="profile-details">
+                        <div class="profile-name">Bagas Putranto</div>
+                        <div class="profile-role">Current Partner</div>
+                    </div>
+                </div>
+                <div class="book-illustration"></div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="welcome-banner">
+                <div>
+                    <h1>Hi, Bagas Putranto</h1>
+                    <p>Achieve your future with learning something new everyday.</p>
+                    <p>And now, start your learning today!</p>
+                    <button class="upgrade-btn">Upgrade Your Package Now</button>
+                </div>
+                <div class="banner-illustration">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=learning" alt="Learning">
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <h2>Upcoming TryOut UTBK-SNBT</h2>
+                    <div class="tryout-item">
+                        <div class="item-icon">📘</div>
+                        <div class="item-content">
+                            <div class="item-title">TryOut #1</div>
+                            <div class="item-date">15 Jan 2025</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </div>
+                    <div class="tryout-item">
+                        <div class="item-icon">📕</div>
+                        <div class="item-content">
+                            <div class="item-title">TryOut #2</div>
+                            <div class="item-date">20 Jan 2025</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </div>
+                    <div class="tryout-item">
+                        <div class="item-icon">📗</div>
+                        <div class="item-content">
+                            <div class="item-title">TryOut #3</div>
+                            <div class="item-date">25 Jan 2025</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Upcoming Event</h2>
+                    <div class="tryout-item">
+                        <div class="item-icon">📅</div>
+                        <div class="item-content">
+                            <div class="item-title">Workshop UTBK</div>
+                            <div class="item-date">18 Jan 2025</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </div>
+                    <div class="tryout-item">
+                        <div class="item-icon">🎯</div>
+                        <div class="item-content">
+                            <div class="item-title">Webinar Tips Lolos</div>
+                            <div class="item-date">22 Jan 2025</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </div>
+                    <div class="tryout-item">
+                        <div class="item-icon">💡</div>
+                        <div class="item-content">
+                            <div class="item-title">Sharing Session</div>
+                            <div class="item-date">28 Jan 2025</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>TryOut Overview</h2>
+                    <div class="stats-card">
+                        <div class="stats-icon">📚</div>
+                        <div class="stats-label">Last Score</div>
+                        <div class="stats-number">1000</div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-icon">✅</div>
+                        <div class="stats-label">Completed TryOut</div>
+                        <div class="stats-number">5</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <div class="card report-card">
+                    <h2>TryOut Report</h2>
+                    <div class="ranking-highlight">
+                        <h3>Ranking Terakhir</h3>
+                        <div class="ranking-number">12</div>
+                        <p>dari 1000 peserta TryOut IRIS Education</p>
+                        <button class="btn-primary">Lihat Leaderboard</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-purple">Prediksi Peluang Lolos</button>
+                        <button class="btn-yellow">Lihat Statistika TryOut-mu</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html>
