@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard TryOut - IRIS Education</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/leaderboard.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html" class="active">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Back Button -->
+        <button class="back-btn" onclick="window.history.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </button>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="tryout-saya.html">Tracking TryOut</a>
+            <span class="separator">›</span>
+            <span class="current">Leaderboard TryOut</span>
+        </div>
+
+        <!-- Header Info -->
+        <div class="header-info">
+            <div class="user-rank-card">
+                <div class="rank-info">
+                    <span class="rank-label">Nama</span>
+                    <span class="rank-value">Bagas Prasetyo</span>
+                </div>
+                <div class="rank-info">
+                    <span class="rank-label">Nilai Terakhir</span>
+                    <span class="rank-value">1000</span>
+                </div>
+                <div class="rank-info">
+                    <span class="rank-label">Peringkat Terakhir</span>
+                    <span class="rank-value">12</span>
+                </div>
+            </div>
+
+            <div class="program-info-card">
+                <div class="program-icon">🎓</div>
+                <div class="program-details">
+                    <h3>Program Studi Pilihan</h3>
+                    <p class="major">S1 - Matematika</p>
+                    <p class="university">UNIVERSITAS NEGERI SURABAYA</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Sections -->
+        <div class="tab-sections">
+            <button class="tab-btn active" onclick="switchTab('iris')">
+                Peserta TryOut IRIS Education
+            </button>
+            <button class="tab-btn" onclick="switchTab('campus')">
+                Berdasarkan Kampus
+            </button>
+        </div>
+
+        <!-- IRIS Education Tab -->
+        <div id="iris-tab" class="tab-content active">
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <div class="view-toggle">
+                    <button class="toggle-btn active">ALL</button>
+                    <button class="toggle-btn">Jurusan</button>
+                </div>
+                <div class="search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" placeholder="Cari nama...">
+                </div>
+            </div>
+
+            <!-- Leaderboard Table -->
+            <div class="table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>ID Peserta</th>
+                            <th>Nama</th>
+                            <th>Total Skor</th>
+                            <th>PU</th>
+                            <th>PPU</th>
+                            <th>PBM</th>
+                            <th>PK</th>
+                            <th>LBI</th>
+                            <th>LBING</th>
+                            <th>PM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td>1</td>
+                            <td>001</td>
+                            <td class="name-cell">
+                                <span class="trophy">👑</span>
+                                Wibisana
+                            </td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr class="rank-2">
+                            <td>2</td>
+                            <td>002</td>
+                            <td class="name-cell">
+                                <span class="trophy">🥈</span>
+                                Irene Byril
+                            </td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr class="rank-3">
+                            <td>3</td>
+                            <td>003</td>
+                            <td class="name-cell">
+                                <span class="trophy">🥉</span>
+                                Brad Mason
+                            </td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>004</td>
+                            <td class="name-cell">Santadeen</td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>005</td>
+                            <td class="name-cell">Jun Redfern</td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>006</td>
+                            <td class="name-cell">Miriam Kidd</td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>007</td>
+                            <td class="name-cell">Poppy Rose</td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td>8</td>
+                            <td>008</td>
+                            <td class="name-cell">Shanice</td>
+                            <td class="score">1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>1000</td>
+                            <td>900</td>
+                            <td>1000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn">Previous</button>
+                <button class="page-num active">1</button>
+                <button class="page-num">2</button>
+                <button class="page-num">3</button>
+                <span class="page-dots">...</span>
+                <button class="page-num">Next</button>
+            </div>
+        </div>
+
+        <!-- Campus Tab -->
+        <div id="campus-tab" class="tab-content">
+            <div class="campus-filter">
+                <label>Kampus:</label>
+                <select class="campus-select">
+                    <option>Cari Berdasarkan Kampus</option>
+                    <option>Universitas Indonesia</option>
+                    <option>Universitas Gadjah Mada</option>
+                    <option>Institut Teknologi Bandung</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>ID Peserta</th>
+                            <th>Nama</th>
+                            <th>Total Skor</th>
+                            <th>PU</th>
+                            <th>PPU</th>
+                            <th>PBM</th>
+                            <th>PK</th>
+                            <th>LBI</th>
+                            <th>LBING</th>
+                            <th>PM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="11" class="empty-state">
+                                Pilih kampus untuk melihat leaderboard
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            // Update buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            if (tab === 'iris') {
+                document.getElementById('iris-tab').classList.add('active');
+            } else {
+                document.getElementById('campus-tab').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

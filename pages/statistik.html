@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik TryOut - IRIS Education</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/statistik.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html" class="active">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+       <!-- Back Button -->
+            <a href="index.html" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Kembali
+            </a>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="tryout-saya.html">Tracking TryOut</a>
+            <span class="separator">›</span>
+            <span class="current">Statistik TryOut</span>
+        </div>
+
+        <!-- Program Info Card -->
+        <div class="program-card">
+            <div class="program-icon">🎓</div>
+            <div class="program-info">
+                <h2 class="program-title">Program Studi Pilihan</h2>
+                <p class="program-major">S1 - Matematika</p>
+                <p class="program-university">UNIVERSITAS NEGERI SURABAYA</p>
+            </div>
+            <div class="program-score">
+                <span class="score-label">Skor TryOut</span>
+                <span class="score-value">12</span>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <h3 class="section-title">Distribusi Nilai Saya</h3>
+            
+            <!-- Chart Container -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h4>Line Chart Nilai TryOut Saya</h4>
+                </div>
+                <div class="chart-container">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card blue">
+                    <div class="summary-label">Rata-rata nilai TryOut mu</div>
+                    <div class="summary-value">0.00</div>
+                    <div class="summary-unit">/1.000poin</div>
+                </div>
+                <div class="summary-card pink">
+                    <div class="summary-label">Nilai terendah skor TryOut</div>
+                    <div class="summary-value">0.00</div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button class="action-btn" onclick="window.location.href='tryout-saya.html'">
+                Periksa Tracking Lainya
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart Data
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        const scoreChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['TryOut #1', 'TryOut #2', 'TryOut #3', 'TryOut #4', 'TryOut #5'],
+                datasets: [{
+                    label: 'Nilai TryOut',
+                    data: [650, 450, 750, 250, 400],
+                    backgroundColor: 'rgba(167, 139, 250, 0.3)',
+                    borderColor: 'rgba(124, 58, 237, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'end'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1000,
+                        ticks: {
+                            stepSize: 200
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
