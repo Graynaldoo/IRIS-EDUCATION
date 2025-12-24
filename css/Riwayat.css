@@ -1,223 +1,346 @@
-        .page-header {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .page-header h1 {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .riwayat-section {
-            margin-bottom: 32px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .section-description {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 24px;
-        }
-        
-        .riwayat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .riwayat-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s;
-        }
-        
-        .riwayat-card:hover {
-            border-color: #7c3aed;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .riwayat-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .riwayat-number {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-        
-        .riwayat-info {
-            flex: 1;
-        }
-        
-        .riwayat-title {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #1f2937;
-        }
-        
-        .riwayat-date {
-            font-size: 12px;
-            color: #6b7280;
-        }
-        
-        .riwayat-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .status-selesai {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .status-berlangsung {
-            background: #fef3c7;
-            color: #78350f;
-        }
-        
-        .riwayat-stats {
-            display: flex;
-            gap: 24px;
-            margin: 16px 0;
-        }
-        
-        .stat-item {
-            flex: 1;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-        
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #7c3aed;
-        }
-        
-        .riwayat-button {
-            width: 100%;
-            padding: 10px;
-            background: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .riwayat-button:hover {
-            background: #6d28d9;
-        }
-        
-        .pembayaran-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        
-        .pembayaran-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
-        }
-        
-        .pembayaran-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-        
-        .paket-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1f2937;
-        }
-        
-        .paket-type {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 8px;
-        }
-        
-        .paket-date {
-            font-size: 12px;
-            color: #9ca3af;
-        }
-        
-        .paket-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: #7c3aed;
-            text-align: right;
-        }
-        
-        .payment-button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-paid {
-            background: #7c3aed;
-            color: white;
-        }
-        
-        .btn-paid:hover {
-            background: #6d28d9;
-        }
-        
-        .btn-pending {
-            background: #fef3c7;
-            color: #78350f;
-            border: 2px solid #fbbf24;
-        }
-        
-        @media (max-width: 1024px) {
-            .riwayat-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .pembayaran-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+/* Page Header */
+.page-header {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.badge-heart {
+    background: #fce7f3;
+    color: #ec4899;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.badge-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f3ff;
+    padding: 12px 20px;
+    border-radius: 12px;
+}
+
+.badge-icon {
+    font-size: 24px;
+}
+
+.badge-label {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.badge-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7c3aed;
+}
+
+/* Riwayat Section */
+.riwayat-section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1f2937;
+}
+
+.section-description {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+/* TryOut Grid */
+.tryout-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.tryout-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tryout-card:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+    transform: translateY(-2px);
+}
+
+.tryout-number {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.tryout-content {
+    flex: 1;
+}
+
+.tryout-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.tryout-subtitle {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.tryout-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-action.purple {
+    background: #7c3aed;
+    color: white;
+}
+
+.btn-action.purple:hover {
+    background: #6d28d9;
+}
+
+.btn-action.pink {
+    background: #ec4899;
+    color: white;
+}
+
+.btn-action.pink:hover {
+    background: #db2777;
+}
+
+.btn-action.red {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-action.red:hover {
+    background: #dc2626;
+}
+
+.tryout-arrow {
+    font-size: 24px;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+}
+
+.tryout-card:hover .tryout-arrow {
+    color: #7c3aed;
+    transform: translateX(5px);
+}
+
+/* Payment Grid */
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.payment-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.payment-card:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+    transform: translateY(-2px);
+}
+
+.payment-icon {
+    width: 60px;
+    height: 60px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.payment-content {
+    flex: 1;
+}
+
+.payment-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.payment-type {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.payment-details {
+    margin-bottom: 16px;
+}
+
+.payment-date {
+    display: block;
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+}
+
+.payment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.payment-info .label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.payment-info .value {
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.payment-info .price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #7c3aed;
+    margin-top: 4px;
+}
+
+.btn-email {
+    width: 100%;
+    padding: 12px;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-email:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .tryout-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .payment-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .user-badge {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .tryout-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .tryout-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-action {
+        width: 100%;
+    }
+    
+    .tryout-arrow {
+        display: none;
+    }
+    
+    .payment-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .payment-icon {
+        margin: 0 auto;
+    }
+}

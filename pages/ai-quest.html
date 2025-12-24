@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Adventure Quest - IRIS Education</title>
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/ai-quest.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html">Beli Paket</a></li>
+                    <li><a href="riwayat.html" class="active">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="quest-content">
+        <div class="quest-container">
+            <!-- Back Section -->
+            <div class="back-section">
+                <a href="riwayat.html" class="back-btn">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Kembali
+                </a>
+                <div class="breadcrumb">
+                    <span>Riwayat Tryout UTBK-SNBT</span>
+                    <span class="separator">></span>
+                    <span class="active">AI Adventure Quest TryOut UTBK-SNBT #1</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <div class="quest-header">
+                <div class="xp-display">
+                    <div class="xp-label">XP POINT AI ADVENTURE QUEST</div>
+                    <div class="xp-value">1000 XP</div>
+                </div>
+                <div class="quest-details">
+                    <div class="detail-row">
+                        <span class="label">PAKET CHAMPION</span>
+                        <span class="value">TryOut UTBK-SNBT #1</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">TANGGAL MENGERJAKAN</span>
+                        <span class="value">12 Desember 2012</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">STATUS PEMBAYARAN</span>
+                        <span class="value status">GOLD</span>
+                    </div>
+                </div>
+                <div class="quest-description">
+                    <p>CEK PEMBAHASAN: Lorem gemben untuk melihat pembahasan yang telah ingin kamu inginkan</p>
+                </div>
+            </div>
+
+            <!-- Adventure Map -->
+            <div class="adventure-map">
+                <div class="map-bg">
+                    <svg viewBox="0 0 1200 600" class="map-illustration">
+                        <!-- Sky Background -->
+                        <defs>
+                            <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <rect width="1200" height="600" fill="url(#skyGradient)"/>
+                        
+                        <!-- Clouds -->
+                        <ellipse cx="150" cy="80" rx="40" ry="25" fill="white" opacity="0.7"/>
+                        <ellipse cx="180" cy="85" rx="50" ry="30" fill="white" opacity="0.7"/>
+                        <ellipse cx="950" cy="100" rx="45" ry="28" fill="white" opacity="0.7"/>
+                        <ellipse cx="980" cy="105" rx="55" ry="32" fill="white" opacity="0.7"/>
+                        
+                        <!-- Ground -->
+                        <path d="M0,400 Q300,350 600,400 T1200,400 L1200,600 L0,600 Z" fill="#90EE90"/>
+                        <path d="M0,420 Q300,380 600,420 T1200,420 L1200,600 L0,600 Z" fill="#7CCD7C"/>
+                        
+                        <!-- Path/Road -->
+                        <path d="M100,500 Q300,450 500,480 T900,500 L1100,520" 
+                              stroke="#D2B48C" stroke-width="60" fill="none" opacity="0.6"/>
+                        
+                        <!-- Trees (decorative) -->
+                        <!-- Tree 1 -->
+                        <rect x="250" y="320" width="20" height="60" fill="#8B4513"/>
+                        <circle cx="260" cy="310" r="40" fill="#228B22"/>
+                        
+                        <!-- Tree 2 -->
+                        <rect x="750" y="340" width="20" height="60" fill="#8B4513"/>
+                        <circle cx="760" cy="330" r="40" fill="#228B22"/>
+                        
+                        <!-- Mountains (background) -->
+                        <path d="M0,300 L150,200 L300,300 Z" fill="#A9A9A9" opacity="0.5"/>
+                        <path d="M200,300 L350,180 L500,300 Z" fill="#808080" opacity="0.5"/>
+                        <path d="M700,300 L900,150 L1100,300 Z" fill="#A9A9A9" opacity="0.5"/>
+                    </svg>
+                </div>
+
+                <!-- Quest Monsters/Stages -->
+                <div class="quest-stages">
+                    <!-- Stage 1 -->
+                    <div class="quest-stage" style="left: 10%; top: 65%;">
+                        <div class="monster-icon stage-1">
+                            <span class="monster-emoji">🐸</span>
+                        </div>
+                        <div class="stage-info">
+                            <div class="stage-name">Stage 1</div>
+                            <div class="stage-status completed">Completed</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="quest-stage" style="left: 25%; top: 55%;">
+                        <div class="monster-icon stage-2">
+                            <span class="monster-emoji">🦋</span>
+                        </div>
+                        <div class="stage-info">
+                            <div class="stage-name">Stage 2</div>
+                            <div class="stage-status completed">Completed</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3 -->
+                    <div class="quest-stage" style="left: 42%; top: 60%;">
+                        <div class="monster-icon stage-3">
+                            <span class="monster-emoji">🐝</span>
+                        </div>
+                        <div class="stage-info">
+                            <div class="stage-name">Stage 3</div>
+                            <div class="stage-status completed">Completed</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4 - Current -->
+                    <div class="quest-stage active" style="left: 58%; top: 63%;">
+                        <div class="monster-icon stage-4 pulse">
+                            <span class="monster-emoji">🦅</span>
+                        </div>
+                        <div class="stage-info">
+                            <div class="stage-name">Stage 4</div>
+                            <div class="stage-status current">Current</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 5 - Locked -->
+                    <div class="quest-stage locked" style="left: 72%; top: 58%;">
+                        <div class="monster-icon stage-5">
+                            <span class="monster-emoji">🔒</span>
+                        </div>
+                        <div class="stage-info">
+                            <div class="stage-name">Stage 5</div>
+                            <div class="stage-status">Locked</div>
+                        </div>
+                    </div>
+
+                    <!-- Final Boss - Locked -->
+                    <div class="quest-stage locked boss" style="left: 88%; top: 65%;">
+                        <div class="monster-icon boss-icon">
+                            <span class="monster-emoji">🐉</span>
+                        </div>
+                        <div class="stage-info">
+                            <div class="stage-name">Final Boss</div>
+                            <div class="stage-status">Locked</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quest Actions -->
+            <div class="quest-actions">
+                <button class="btn-continue">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M6 4l8 6-8 6V4z"/>
+                    </svg>
+                    Lanjutkan Petualangan
+                </button>
+                <button class="btn-rewards">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6l2-6z"/>
+                    </svg>
+                    Lihat Hadiah
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add pulse animation to current stage
+        const currentStage = document.querySelector('.quest-stage.active');
+        if (currentStage) {
+            setInterval(() => {
+                currentStage.querySelector('.monster-icon').classList.toggle('pulse');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
