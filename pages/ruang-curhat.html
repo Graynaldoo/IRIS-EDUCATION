@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="../css/Ruang-curhat.css">
+    <link rel="stylesheet" href="../css/ruang-curhat.css">
+    
     
 </head>
 <body>
@@ -119,8 +120,8 @@
                         <span>🔍</span>
                         <input type="text" placeholder="Search...">
                     </div>
-                    <button class="icon-btn">🏠</button>
-                    <button class="icon-btn">💬</button>
+                    <button class="icon-btn" onclick="window.location.href='ruang-curhat.html'" title="Feed Postingan">🏠</button>
+                    <button class="icon-btn" onclick="window.location.href='ruang-chat.html'" title="Chat Konselor">💬</button>
                 </div>
             </div>
 
@@ -146,15 +147,15 @@
                 </div>
 
                 <!-- Post Item 1 -->
-                <div class="curhat-card post-item">
+                <div class="curhat-card post-item" onclick="window.location.href='detail-postingan.html'" style="cursor: pointer;">
                     <div class="post-header">
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas1" alt="User" class="user-avatar">
                         <div class="user-info">
                             <div class="user-name">Bagas Putranto</div>
                             <div class="post-id">ID: 013456</div>
                         </div>
-                        <button class="post-more">⋮</button>
-                        <button class="emoji-btn">😊</button>
+                        <button class="post-more" onclick="event.stopPropagation()">⋮</button>
+                        <button class="emoji-btn" onclick="event.stopPropagation()">😊</button>
                     </div>
 
                     <div class="post-images">
@@ -165,15 +166,15 @@
                     <div class="post-content">
                         <p>Hari ini aku nyoba belajar bareng temen nih...</p>
                         <p>Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu.</p>
-                        <a href="#" class="read-more">Baca selengkapnya...</a>
+                        <a href="detail-postingan.html" class="read-more" onclick="event.stopPropagation()">Baca selengkapnya...</a>
                     </div>
 
-                    <div class="post-actions">
+                    <div class="post-actions" onclick="event.stopPropagation()">
                         <button class="action-btn">
                             <span class="icon">❤️</span>
                             <span>122 menyukai postingan</span>
                         </button>
-                        <button class="action-btn">
+                        <button class="action-btn" onclick="window.location.href='detail-postingan.html'">
                             <span class="icon">💬</span>
                             <span>122 Komentar</span>
                         </button>
@@ -186,15 +187,15 @@
                 </div>
 
                 <!-- Post Item 2 -->
-                <div class="curhat-card post-item">
+                <div class="curhat-card post-item" onclick="window.location.href='detail-postingan.html'" style="cursor: pointer;">
                     <div class="post-header">
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas2" alt="User" class="user-avatar">
                         <div class="user-info">
                             <div class="user-name">Bagas Putranto</div>
                             <div class="post-id">ID: 013456</div>
                         </div>
-                        <button class="post-more">⋮</button>
-                        <button class="emoji-btn">😊</button>
+                        <button class="post-more" onclick="event.stopPropagation()">⋮</button>
+                        <button class="emoji-btn" onclick="event.stopPropagation()">😊</button>
                     </div>
 
                     <div class="post-content">
@@ -202,12 +203,12 @@
                         <p>Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in</p>
                     </div>
 
-                    <div class="post-actions">
+                    <div class="post-actions" onclick="event.stopPropagation()">
                         <button class="action-btn">
                             <span class="icon">❤️</span>
                             <span>89 menyukai postingan</span>
                         </button>
-                        <button class="action-btn">
+                        <button class="action-btn" onclick="window.location.href='detail-postingan.html'">
                             <span class="icon">💬</span>
                             <span>45 Komentar</span>
                         </button>
@@ -220,15 +221,15 @@
                 </div>
 
                 <!-- Post Item 3 -->
-                <div class="curhat-card post-item">
+                <div class="curhat-card post-item" onclick="window.location.href='detail-postingan.html'" style="cursor: pointer;">
                     <div class="post-header">
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Siti" alt="User" class="user-avatar">
                         <div class="user-info">
                             <div class="user-name">Siti Aminah</div>
                             <div class="post-id">ID: 013457</div>
                         </div>
-                        <button class="post-more">⋮</button>
-                        <button class="emoji-btn">🥰</button>
+                        <button class="post-more" onclick="event.stopPropagation()">⋮</button>
+                        <button class="emoji-btn" onclick="event.stopPropagation()">🥰</button>
                     </div>
 
                     <div class="post-content">
@@ -236,12 +237,12 @@
                         <p>Terima kasih IRIS Education sudah menyediakan platform yang sangat membantu persiapan UTBK. Semangat untuk teman-teman semua! 💪</p>
                     </div>
 
-                    <div class="post-actions">
+                    <div class="post-actions" onclick="event.stopPropagation()">
                         <button class="action-btn">
                             <span class="icon">❤️</span>
                             <span>156 menyukai postingan</span>
                         </button>
-                        <button class="action-btn">
+                        <button class="action-btn" onclick="window.location.href='detail-postingan.html'">
                             <span class="icon">💬</span>
                             <span>67 Komentar</span>
                         </button>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Berhasil - IRIS Education</title>
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/pembayaran-berhasil.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html" class="active">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="success-content">
+        <div class="success-container">
+            <div class="success-card">
+                <!-- Success Icon with Animation -->
+                <div class="success-icon">
+                    <div class="success-circle">
+                        <div class="success-checkmark">
+                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                                <circle cx="40" cy="40" r="36" stroke="#10b981" stroke-width="4" fill="none"/>
+                                <path d="M25 40L35 50L55 30" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <!-- Decorative Stars -->
+                        <div class="star star-1">✨</div>
+                        <div class="star star-2">⭐</div>
+                        <div class="star star-3">✨</div>
+                        <div class="star star-4">⭐</div>
+                    </div>
+                </div>
+
+                <h1 class="success-title">Pembayaran Berhasil!</h1>
+                <p class="success-message">Order ID : #121212121212</p>
+                <p class="success-info">TryOut Package : ACHIEVER</p>
+                <div class="success-amount">Rp35.000</div>
+
+                <button class="btn-success" onclick="window.location.href='../index.html'">
+                    Oke
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        console.log('Success page loaded!');
+        
+        // Add animation class after page load
+        window.addEventListener('load', () => {
+            const successIcon = document.querySelector('.success-icon');
+            if (successIcon) {
+                successIcon.classList.add('animate');
+            }
+        });
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#7c3aed', '#ec4899', '#10b981', '#f59e0b', '#3b82f6'];
+            const confettiCount = 50;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+        // Trigger confetti on load
+        window.addEventListener('load', createConfetti);
+    </script>
+</body>
+</html>

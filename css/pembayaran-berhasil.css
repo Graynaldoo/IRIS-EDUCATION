@@ -1,0 +1,250 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow-x: hidden;
+}
+
+/* Main Content */
+.success-content {
+    margin-top: 70px;
+    padding: 30px 20px;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.success-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Success Card */
+.success-card {
+    background: white;
+    border-radius: 24px;
+    padding: 50px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+/* Success Icon */
+.success-icon {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.success-circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-checkmark {
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-checkmark circle {
+    stroke-dasharray: 226;
+    stroke-dashoffset: 226;
+    animation: drawCircle 0.5s ease-out 0.3s forwards;
+}
+
+.success-checkmark path {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: drawCheck 0.5s ease-out 0.6s forwards;
+}
+
+@keyframes drawCircle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheck {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Decorative Stars */
+.star {
+    position: absolute;
+    font-size: 24px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.star-1 {
+    top: -10px;
+    left: 20px;
+    animation-delay: 0s;
+}
+
+.star-2 {
+    top: 20px;
+    right: 10px;
+    animation-delay: 0.5s;
+}
+
+.star-3 {
+    bottom: 10px;
+    left: 10px;
+    animation-delay: 1s;
+}
+
+.star-4 {
+    bottom: -10px;
+    right: 20px;
+    animation-delay: 1.5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+/* Success Text */
+.success-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #10b981;
+    margin-bottom: 15px;
+    animation: fadeInUp 0.5s ease-out 0.8s backwards;
+}
+
+.success-message {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 10px;
+    animation: fadeInUp 0.5s ease-out 1s backwards;
+}
+
+.success-info {
+    font-size: 16px;
+    color: #1f2937;
+    font-weight: 600;
+    margin-bottom: 10px;
+    animation: fadeInUp 0.5s ease-out 1.2s backwards;
+}
+
+.success-amount {
+    font-size: 36px;
+    font-weight: 700;
+    color: #7c3aed;
+    margin-bottom: 30px;
+    animation: fadeInUp 0.5s ease-out 1.4s backwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Success Button */
+.btn-success {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.5s ease-out 1.6s backwards;
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+}
+
+/* Confetti Animation */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    z-index: 9999;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .success-content {
+        padding: 20px 15px;
+    }
+
+    .success-card {
+        padding: 40px 25px;
+    }
+
+    .success-title {
+        font-size: 26px;
+    }
+
+    .success-amount {
+        font-size: 28px;
+    }
+
+    .success-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .success-checkmark svg {
+        width: 60px;
+        height: 60px;
+    }
+
+    .star {
+        font-size: 18px;
+    }
+}

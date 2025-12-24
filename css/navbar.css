@@ -1,0 +1,179 @@
+/* Navbar for Detail Pages */
+.navbar-detail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #000000;
+    height: 70px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 30px;
+    height: 100%;
+}
+
+/* Navbar Left */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-left .logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
+.logo-outer {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-inner {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 4px;
+}
+
+.logo-sparkle {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    color: #fbbf24;
+    font-size: 12px;
+}
+
+.brand-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+/* Navbar Center */
+.navbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu li a.active {
+    background: #7c3aed;
+    color: #ffffff;
+}
+
+/* Navbar Right */
+.navbar-right .profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navbar-right .profile-btn:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+.navbar-right .profile-btn img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.navbar-right .profile-btn span {
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .navbar-center {
+        display: none;
+    }
+
+    .navbar-container {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-detail {
+        height: 60px;
+    }
+
+    .navbar-container {
+        padding: 0 15px;
+    }
+
+    .logo-outer {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-inner {
+        width: 18px;
+        height: 18px;
+    }
+
+    .brand-name {
+        font-size: 14px;
+    }
+
+    .navbar-right .profile-btn {
+        padding: 6px 15px;
+    }
+
+    .navbar-right .profile-btn img {
+        width: 26px;
+        height: 26px;
+    }
+
+    .navbar-right .profile-btn span {
+        font-size: 14px;
+    }
+}

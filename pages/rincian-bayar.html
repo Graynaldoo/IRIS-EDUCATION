@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rincian Bayar - IRIS Education</title>
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/rincian-bayar.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html" class="active">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="rincian-content">
+        <div class="rincian-container">
+            <!-- Back Button -->
+            <a href="payment-method.html" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </a>
+
+            <div class="rincian-card">
+                <h1 class="rincian-title">Rincian Pembayaran</h1>
+                <p class="order-id">Order ID : 121212121212</p>
+
+                <div class="payment-info">
+                    <div class="info-row">
+                        <span class="info-label">3 Hati</span>
+                        <span class="info-value">Rp10.000</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Jatuh Tempo</span>
+                        <span class="info-value">13 Jun 2025, 10:15</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">QRIS</span>
+                        <span class="info-value qris-logo">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/QRIS_logo.svg/200px-QRIS_logo.svg.png" alt="QRIS">
+                        </span>
+                    </div>
+                </div>
+
+                <!-- QR Code Section -->
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <svg viewBox="0 0 200 200" width="200" height="200">
+                            <!-- Simple QR Code representation -->
+                            <rect x="0" y="0" width="200" height="200" fill="white"/>
+                            <!-- Top-left finder pattern -->
+                            <rect x="10" y="10" width="60" height="60" fill="black"/>
+                            <rect x="20" y="20" width="40" height="40" fill="white"/>
+                            <rect x="30" y="30" width="20" height="20" fill="black"/>
+                            <!-- Top-right finder pattern -->
+                            <rect x="130" y="10" width="60" height="60" fill="black"/>
+                            <rect x="140" y="20" width="40" height="40" fill="white"/>
+                            <rect x="150" y="30" width="20" height="20" fill="black"/>
+                            <!-- Bottom-left finder pattern -->
+                            <rect x="10" y="130" width="60" height="60" fill="black"/>
+                            <rect x="20" y="140" width="40" height="40" fill="white"/>
+                            <rect x="30" y="150" width="20" height="20" fill="black"/>
+                            <!-- Data patterns (simplified) -->
+                            <rect x="90" y="30" width="10" height="10" fill="black"/>
+                            <rect x="110" y="30" width="10" height="10" fill="black"/>
+                            <rect x="90" y="50" width="10" height="10" fill="black"/>
+                            <rect x="110" y="50" width="10" height="10" fill="black"/>
+                            <rect x="90" y="70" width="10" height="10" fill="black"/>
+                            <rect x="30" y="90" width="10" height="10" fill="black"/>
+                            <rect x="50" y="90" width="10" height="10" fill="black"/>
+                            <rect x="70" y="90" width="10" height="10" fill="black"/>
+                            <rect x="130" y="90" width="10" height="10" fill="black"/>
+                            <rect x="150" y="90" width="10" height="10" fill="black"/>
+                            <rect x="170" y="90" width="10" height="10" fill="black"/>
+                            <rect x="90" y="130" width="10" height="10" fill="black"/>
+                            <rect x="110" y="130" width="10" height="10" fill="black"/>
+                            <rect x="90" y="150" width="10" height="10" fill="black"/>
+                            <rect x="110" y="150" width="10" height="10" fill="black"/>
+                            <rect x="130" y="170" width="10" height="10" fill="black"/>
+                            <rect x="150" y="170" width="10" height="10" fill="black"/>
+                            <rect x="170" y="170" width="10" height="10" fill="black"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions">
+                    <details class="instruction-item" open>
+                        <summary>Petunjuk Transfer mBanking</summary>
+                        <div class="instruction-content">
+                            <ol>
+                                <li>Buka aplikasi mobile banking Anda</li>
+                                <li>Pilih menu QRIS atau Scan QR</li>
+                                <li>Scan QR Code di atas</li>
+                                <li>Periksa detail pembayaran</li>
+                                <li>Konfirmasi dan selesaikan pembayaran</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details class="instruction-item">
+                        <summary>Petunjuk Transfer ATM</summary>
+                        <div class="instruction-content">
+                            <ol>
+                                <li>Masukkan kartu ATM dan PIN Anda</li>
+                                <li>Pilih menu Transfer</li>
+                                <li>Pilih QRIS</li>
+                                <li>Masukkan nominal Rp10.000</li>
+                                <li>Konfirmasi transaksi</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details class="instruction-item">
+                        <summary>Petunjuk Transfer QRIS</summary>
+                        <div class="instruction-content">
+                            <ol>
+                                <li>Buka aplikasi e-wallet (GoPay, OVO, Dana, dll)</li>
+                                <li>Pilih menu Scan atau QRIS</li>
+                                <li>Arahkan kamera ke QR Code</li>
+                                <li>Masukkan nominal yang sesuai</li>
+                                <li>Selesaikan pembayaran</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Download Button -->
+                <button class="btn-download">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 3v11m0 0l-4-4m4 4l4-4M3 17h14"/>
+                    </svg>
+                    Download QRIS
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Auto redirect to success page after 7 seconds (simulate payment)
+        setTimeout(() => {
+            if (confirm('Simulasi: Pembayaran berhasil! Lanjut ke halaman konfirmasi?')) {
+                window.location.href = 'konfirmasi-payment.html';
+            }
+        }, 7000);
+    </script>
+</body>
+</html>

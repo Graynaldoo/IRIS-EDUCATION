@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Curhat Chat</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/ruang-chat.css">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <div class="logo">
+                        <div class="logo-outer">
+                            <div class="logo-inner"></div>
+                        </div>
+                        <div class="logo-sparkle">✦</div>
+                    </div>
+                    <div class="bell-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleSidebar()">
+                    <div class="toggle-line"></div>
+                    <svg id="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <div class="toggle-line"></div>
+                </button>
+            </div>
+
+            <nav class="menu">
+                <a href="../index.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span class="menu-label">Dashboard</span>
+                </a>
+
+                <a href="tryout-saya.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                    <span class="menu-label">TryOut Saya</span>
+                </a>
+
+                <a href="event-saya.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span class="menu-label">Event Saya</span>
+                </a>
+
+                <a href="ruang-curhat.html" class="menu-item active">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="menu-label">Ruang Curhat</span>
+                    <span class="active-dot"></span>
+                </a>
+
+                <a href="beli-paket.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span class="menu-label">Beli Paket</span>
+                </a>
+
+                <a href="riwayat.html" class="menu-item">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="menu-label">Riwayat</span>
+                </a>
+            </nav>
+
+            <div class="profile-section">
+                <div class="profile-info">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile" class="profile-avatar">
+                    <div class="profile-details">
+                        <div class="profile-name">Bagas Putranto</div>
+                        <div class="profile-role">Current Partner</div>
+                    </div>
+                </div>
+                <div class="book-illustration"></div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="page-header">
+                <h1>Ruang Curhat Chat</h1>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="icon-btn" onclick="window.location.href='ruang-curhat.html'">🏠</button>
+                    <button class="icon-btn">💬</button>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <!-- Chat Sidebar -->
+                <div class="chat-sidebar">
+                    <div class="chat-tabs">
+                        <button class="tab-btn active">Chat Aktif</button>
+                        <button class="tab-btn">Arsip</button>
+                    </div>
+
+                    <div class="chat-list">
+                        <div class="chat-item active" onclick="loadChat('psikolog')">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Psikolog" alt="Psikolog" class="chat-item-avatar">
+                            <div class="chat-item-info">
+                                <div class="chat-item-name">Psikolog Mitra</div>
+                                <div class="chat-item-preview">Terima kasih sudah berbagi...</div>
+                            </div>
+                            <div class="chat-item-meta">
+                                <div class="chat-item-time">10:30</div>
+                                <div class="unread-badge">2</div>
+                            </div>
+                        </div>
+
+                        <div class="chat-item" onclick="loadChat('konselor')">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Konselor" alt="Konselor" class="chat-item-avatar">
+                            <div class="chat-item-info">
+                                <div class="chat-item-name">Konselor Pendidikan</div>
+                                <div class="chat-item-preview">Semangat untuk persiapan UTBK!</div>
+                            </div>
+                            <div class="chat-item-meta">
+                                <div class="chat-item-time">Yesterday</div>
+                            </div>
+                        </div>
+
+                        <div class="chat-item" onclick="loadChat('mentor')">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mentor" alt="Mentor" class="chat-item-avatar">
+                            <div class="chat-item-info">
+                                <div class="chat-item-name">Mentor IRIS</div>
+                                <div class="chat-item-preview">Bagaimana progres belajarmu?</div>
+                            </div>
+                            <div class="chat-item-meta">
+                                <div class="chat-item-time">2d ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Chat Area -->
+                <div class="chat-main">
+                    <div class="chat-header">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Psikolog" alt="Psikolog" class="chat-header-avatar">
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">Psikolog Mitra</div>
+                            <div class="chat-header-status">● Online</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message received">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Psikolog" alt="Psikolog" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    Halo! Selamat datang di Ruang Curhat IRIS. Ada yang bisa saya bantu hari ini?
+                                </div>
+                                <div class="message-time">09:15</div>
+                            </div>
+                        </div>
+
+                        <div class="message sent">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="You" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    Hai, saya merasa cemas menghadapi UTBK yang akan datang
+                                </div>
+                                <div class="message-time">09:16</div>
+                            </div>
+                        </div>
+
+                        <div class="message received">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Psikolog" alt="Psikolog" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    Saya mengerti perasaan cemas itu adalah hal yang wajar. Bisa ceritakan lebih detail apa yang membuatmu cemas?
+                                </div>
+                                <div class="message-time">09:17</div>
+                            </div>
+                        </div>
+
+                        <div class="message sent">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="You" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    Saya takut tidak bisa menjawab soal-soal dengan baik dan tidak lolos di PTN impian
+                                </div>
+                                <div class="message-time">09:18</div>
+                            </div>
+                        </div>
+
+                        <div class="message received">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Psikolog" alt="Psikolog" class="message-avatar">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    Terima kasih sudah berbagi. Kecemasan ini menunjukkan bahwa kamu peduli dengan masa depanmu, dan itu bagus. Mari kita coba atasi bersama-sama. 💪
+                                </div>
+                                <div class="message-time">09:20</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <button class="attach-btn">📎</button>
+                            <input type="text" class="chat-input" placeholder="Ketik pesan..." id="messageInput">
+                        </div>
+                        <button class="send-btn" onclick="sendMessage()">
+                            ➤
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message sent';
+            messageDiv.innerHTML = `
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="You" class="message-avatar">
+                <div class="message-content">
+                    <div class="message-bubble">
+                        ${message}
+                    </div>
+                    <div class="message-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            input.value = '';
+
+            // Simulate reply
+            setTimeout(() => {
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'message received';
+                replyDiv.innerHTML = `
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Psikolog" alt="Psikolog" class="message-avatar">
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            Saya mengerti. Mari kita diskusikan lebih lanjut...
+                        </div>
+                        <div class="message-time">${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})}</div>
+                    </div>
+                `;
+                messagesContainer.appendChild(replyDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1500);
+        }
+
+        // Send on Enter key
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

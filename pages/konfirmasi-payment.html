@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pembayaran - IRIS Education</title>
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/konfirmasi-payment.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html" class="active">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="konfirmasi-content">
+        <div class="konfirmasi-container">
+            <div class="konfirmasi-card">
+                <h1 class="konfirmasi-title">Konfirmasi Pembayaran</h1>
+                <p class="konfirmasi-subtitle">Total Pembayaran Anda</p>
+                
+                <div class="total-amount">Rp37.000,-</div>
+
+                <div class="payment-method-display">
+                    <span class="method-label">Metode Pembayaran</span>
+                    <div class="method-info">
+                        <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BCA_logo.svg/200px-BCA_logo.svg.png" alt="BCA">
+                    </div>
+                </div>
+
+                <button class="btn-pay-now" onclick="processPayment()">
+                    BAYAR
+                </button>
+
+                <!-- Payment Details Section -->
+                <div class="payment-details">
+                    <div class="detail-section">
+                        <h3>Rincian Pembayaran</h3>
+                        <div class="detail-card">
+                            <p class="detail-package">TryOut Package : ACHIEVER</p>
+                            <p class="detail-date">Jum, 4 Apr 2025 • 11:15</p>
+                            <p class="detail-order">Order ID : 121212121212</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>Detail Transaksi</h3>
+                        <div class="detail-card">
+                            <div class="transaction-row">
+                                <span>Metode Pembayaran</span>
+                                <span class="transaction-value">Bank BCA</span>
+                            </div>
+                            <div class="transaction-row">
+                                <span>ACHIEVER PACKAGE</span>
+                                <span class="transaction-value">Rp35.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How to Use Section -->
+                <div class="how-to-use">
+                    <h3>Cara Menggunakan TryOut Package : ACHIEVER</h3>
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-number">01</div>
+                            <div class="step-content">
+                                <h4>Pilih TryOut</h4>
+                                <p>Pilih TryOut yang ingin kamu ikuti karena kamu, TryOut tersebut di "TryOut Saya"</p>
+                            </div>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-number">02</div>
+                            <div class="step-content">
+                                <h4>Kerjakan TryOut</h4>
+                                <p>Kerjakan TryOut hingga selesai, TryOut akan otomatis berhubung saat waktu selesai</p>
+                            </div>
+                        </div>
+
+                        <div class="step-item">
+                            <div class="step-number">03</div>
+                            <div class="step-content">
+                                <h4>Hasil TryOut</h4>
+                                <p>Lihat hasil pembahasan dan di Adventure Quest di "Riwayat"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function processPayment() {
+            console.log('Processing payment...');
+            
+            // Show loading
+            const btn = document.querySelector('.btn-pay-now');
+            if (!btn) {
+                console.error('Button not found!');
+                return;
+            }
+            
+            btn.textContent = 'Memproses...';
+            btn.disabled = true;
+
+            // Simulate payment process
+            setTimeout(() => {
+                console.log('Redirecting to pembayaran-berhasil.html');
+                
+                // Check if we're in the pages directory
+                const currentPath = window.location.pathname;
+                console.log('Current path:', currentPath);
+                
+                // Redirect to success page
+                window.location.href = 'pembayaran-berhasil.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

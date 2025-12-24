@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Pembayaran - IRIS Education</title>
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/payment-method.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html" class="active">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="method-content">
+        <div class="method-container">
+            <!-- Back Button -->
+            <a href="payment-tryout.html" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Metode Pembayaran
+            </a>
+
+            <h1 class="page-title">Metode Pembayaran</h1>
+
+            <!-- Payment Methods List -->
+            <div class="methods-layout">
+                <div class="methods-list">
+                    <div class="method-item" onclick="selectMethod('shopeepay')">
+                        <div class="method-info">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Shopee_logo.svg/200px-Shopee_logo.svg.png" alt="ShopeePay">
+                            <span>Shopee Pay</span>
+                        </div>
+                        <input type="radio" name="payment-method" value="shopeepay">
+                    </div>
+
+                    <div class="method-item" onclick="selectMethod('ovo')">
+                        <div class="method-info">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/200px-Logo_ovo_purple.svg.png" alt="OVO">
+                            <span>OVO</span>
+                        </div>
+                        <input type="radio" name="payment-method" value="ovo">
+                    </div>
+
+                    <div class="method-item" onclick="selectMethod('gopay')">
+                        <div class="method-info">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbHch-mRuY1r8mxGF0M1APbKYXUKNSTe90Jg&s" alt="GoPay">
+                            <span>Gopay</span>
+                        </div>
+                        <input type="radio" name="payment-method" value="gopay">
+                    </div>
+
+                    <div class="method-item" onclick="selectMethod('mandiri')">
+                        <div class="method-info">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Mandiri_logo_2016.svg/200px-Mandiri_logo_2016.svg.png" alt="Mandiri">
+                            <span>Bank Mandiri</span>
+                        </div>
+                        <input type="radio" name="payment-method" value="mandiri">
+                    </div>
+
+                    <div class="method-item" onclick="selectMethod('bca')">
+                        <div class="method-info">
+                            <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BCA_logo.svg/200px-BCA_logo.svg.png" alt="BCA">
+                            <span>Bank BCA</span>
+                        </div>
+                        <input type="radio" name="payment-method" value="bca">
+                    </div>
+                </div>
+
+                <!-- Right Side: Summary -->
+                <div class="method-summary">
+                    <h2>Rincian Pembayaran</h2>
+                    
+                    <div class="summary-info">
+                        <p class="summary-package">TryOut Package : ACHIEVER</p>
+                        <p class="summary-date">Jum, 4 Apr 2025 • 11:15</p>
+                        <p class="summary-order">Order ID : 121212121212</p>
+                    </div>
+
+                    <div class="summary-detail">
+                        <h3>Detail Transaksi</h3>
+                        <div class="detail-row">
+                            <span>ACHIEVER PACKAGE</span>
+                            <span>Rp35.000</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-method">
+                        <h3>Metode Pembayaran</h3>
+                        <div class="selected-method" id="selected-method">
+                            <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BCA_logo.svg/200px-BCA_logo.svg.png" alt="BCA">
+                            <span>Bank BCA</span>
+                        </div>
+                    </div>
+
+                    <div class="agreement-check">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="info-promo">
+                            <span>Saya ingin mendapatkan info apabila ada promo baru</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" required>
+                            <span>Saya setuju terhadap, <a href="#">Syarat dan Ketentuan Teks/Taki</a> dan <a href="#">Kebijakan Privasi Teks/Taki</a></span>
+                        </label>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span class="total-price">RpRp35.000</span>
+                    </div>
+
+                    <button class="btn-confirm" onclick="confirmPayment()">
+                        Konfirmasi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectMethod(method) {
+            // Clear all selections
+            document.querySelectorAll('.method-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Select clicked item
+            event.currentTarget.classList.add('selected');
+            event.currentTarget.querySelector('input[type="radio"]').checked = true;
+
+            // Update displayed method
+            const methodImages = {
+                'shopeepay': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Shopee_logo.svg/200px-Shopee_logo.svg.png',
+                'ovo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/200px-Logo_ovo_purple.svg.png',
+                'gopay': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbHch-mRuY1r8mxGF0M1APbKYXUKNSTe90Jg&s',
+                'mandiri': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Mandiri_logo_2016.svg/200px-Mandiri_logo_2016.svg.png',
+                'bca': 'https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BCA_logo.svg/200px-BCA_logo.svg.png'
+            };
+
+            const methodNames = {
+                'shopeepay': 'Shopee Pay',
+                'ovo': 'OVO',
+                'gopay': 'Gopay',
+                'mandiri': 'Bank Mandiri',
+                'bca': 'Bank BCA'
+            };
+
+            document.getElementById('selected-method').innerHTML = `
+                <img src="${methodImages[method]}" alt="${method}">
+                <span>${methodNames[method]}</span>
+            `;
+        }
+
+        function confirmPayment() {
+            const termsChecked = document.getElementById('terms').checked;
+            if (!termsChecked) {
+                alert('Harap setujui syarat dan ketentuan terlebih dahulu');
+                return;
+            }
+            
+            const selectedMethod = document.querySelector('.method-item.selected');
+            if (!selectedMethod) {
+                alert('Pilih metode pembayaran terlebih dahulu');
+                return;
+            }
+
+            window.location.href = 'rincian-bayar.html';
+        }
+
+        // Set default selected method
+        document.querySelector('.method-item:last-child').classList.add('selected');
+        document.querySelector('.method-item:last-child input').checked = true;
+    </script>
+</body>
+</html>

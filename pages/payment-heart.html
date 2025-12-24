@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Heart - IRIS Education</title>
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/payment.css">
+
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html" class="active">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="payment-content">
+        <div class="payment-container">
+            <!-- Back Button -->
+            <a href="beli-paket.html" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Kembali
+            </a>
+
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <span class="breadcrumb-item">Heart Top Up</span>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-item active">Heart Top Up Payment</span>
+            </div>
+
+            <h1 class="page-title">HEART TOP UP PAYMENT</h1>
+
+            <div class="payment-layout">
+                <!-- Left Side: Syarat & Ketentuan -->
+                <div class="payment-left">
+                    <div class="info-section">
+                        <h2 class="info-title">Syarat dan Ketentuan</h2>
+                        <ol class="info-list">
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                        </ol>
+                    </div>
+
+                    <div class="info-section">
+                        <h2 class="info-title">Cara Pengerjaan Paket TryOut</h2>
+                        <ol class="info-list">
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                            <li>Lorem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Right Side: Rincian Pembayaran -->
+                <div class="payment-right">
+                    <div class="payment-summary">
+                        <h2 class="summary-title">Rincian Pembayaran</h2>
+                        
+                        <div class="package-info">
+                            <h3>Heart Top Up : 3 Hati</h3>
+                            <p class="package-date">Jum, 4 Apr 2025 • 11:15</p>
+                            <p class="package-order">Order ID : 121212121212</p>
+                        </div>
+
+                        <div class="transaction-detail">
+                            <h3>Detail Transaksi</h3>
+                            <div class="detail-row">
+                                <span>3 Hati</span>
+                                <span class="detail-price">Rp10.000</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-select-method" onclick="window.location.href='payment-method-heart.html'">
+                            Pilih Metode Pembayaran
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+
+                        <div class="agreement-section">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="info-promo">
+                                <span>Saya ingin mendapatkan info apabila ada promo baru</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" required>
+                                <span>Saya setuju terhadap, <a href="#">Syarat dan Ketentuan Teks/Taki</a> dan <a href="#">Kebijakan Privasi Teks/Taki</a></span>
+                            </label>
+                        </div>
+
+                        <div class="total-section">
+                            <span class="total-label">Total</span>
+                            <span class="total-price">Rp10.000</span>
+                        </div>
+
+                        <button class="btn-pay" onclick="handlePayment()">
+                            BAYAR SEKARANG
+                        </button>
+                    </div>
+
+                    <!-- Payment Methods Footer -->
+                    <div class="payment-methods-footer">
+                        <p>Metode Pembayaran yang Tersedia:</p>
+                        <div class="payment-logos">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Shopee_logo.svg/200px-Shopee_logo.svg.png" alt="ShopeePay">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/200px-Logo_ovo_purple.svg.png" alt="OVO">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbHch-mRuY1r8mxGF0M1APbKYXUKNSTe90Jg&s" alt="GoPay">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Mandiri_logo_2016.svg/200px-Mandiri_logo_2016.svg.png" alt="Mandiri">
+                            <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BCA_logo.svg/200px-BCA_logo.svg.png" alt="BCA">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function handlePayment() {
+            const termsChecked = document.getElementById('terms').checked;
+            if (!termsChecked) {
+                alert('Harap setujui syarat dan ketentuan terlebih dahulu');
+                return;
+            }
+            window.location.href = 'payment-method-heart.html';
+        }
+    </script>
+</body>
+</html>

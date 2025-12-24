@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Postingan - Ruang Curhat</title>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/Detail-postingan.css">
+    
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html" class="active">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <a href="ruang-curhat.html" class="back-btn">
+            ← Kembali ke Ruang Curhat
+        </a>
+
+        <!-- Post Card -->
+        <div class="post-card">
+            <div class="post-header">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas1" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">Bagas Putranto</div>
+                    <div class="post-time">2 jam yang lalu</div>
+                </div>
+                <button class="post-more">⋮</button>
+            </div>
+
+            <div class="post-images">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop" alt="Post image 1">
+                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&h=300&fit=crop" alt="Post image 2">
+            </div>
+
+            <div class="post-content">
+                <p>Hari ini aku nyoba belajar bareng temen nih... 📚</p>
+                <p>Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu. Amet porta lectus in Lorem ipsum dolor sit amet consectetur. Gravida leo fringilla tellus egestas eu.</p>
+                <p>Seneng banget bisa belajar sambil sharing pengalaman dengan teman-teman. Semoga kita semua bisa lolos SNBT tahun ini! 💪✨</p>
+            </div>
+
+            <div class="post-actions">
+                <button class="action-btn active">
+                    <span class="icon">❤️</span>
+                    <span>122</span>
+                </button>
+                <button class="action-btn">
+                    <span class="icon">💬</span>
+                    <span>45</span>
+                </button>
+                <button class="action-btn">
+                    <span class="icon">🔖</span>
+                    <span>12</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <h2 class="comments-title">Balasan (45)</h2>
+
+            <!-- Comment Form -->
+            <div class="comment-form">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Your avatar">
+                <div class="comment-input-wrapper">
+                    <textarea 
+                        class="comment-input" 
+                        placeholder="Tulis balasan kamu..."
+                        id="commentInput"
+                    ></textarea>
+                    <div class="comment-actions">
+                        <button class="btn-comment btn-cancel" onclick="document.getElementById('commentInput').value = ''">
+                            Batal
+                        </button>
+                        <button class="btn-comment btn-send" onclick="postComment()">
+                            Kirim
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments List -->
+            <div class="comments-list">
+                <!-- Comment 1 -->
+                <div class="comment-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Siti" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">Siti Aminah</span>
+                            <span class="comment-time">1 jam yang lalu</span>
+                        </div>
+                        <p class="comment-text">
+                            Wah keren banget! Semangat terus ya belajarnya. Btw materinya tentang apa nih?
+                        </p>
+                        <div class="comment-reactions">
+                            <button class="reaction-btn">❤️ 12</button>
+                            <button class="reaction-btn">Balas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment 2 -->
+                <div class="comment-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Andi" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">Andi Pratama</span>
+                            <span class="comment-time">45 menit yang lalu</span>
+                        </div>
+                        <p class="comment-text">
+                            Mantap! Belajar bareng emang lebih efektif. Sukses buat kalian semua! 💪
+                        </p>
+                        <div class="comment-reactions">
+                            <button class="reaction-btn">❤️ 8</button>
+                            <button class="reaction-btn">Balas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment 3 -->
+                <div class="comment-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Dewi" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">Dewi Lestari</span>
+                            <span class="comment-time">30 menit yang lalu</span>
+                        </div>
+                        <p class="comment-text">
+                            Boleh dong join belajar bareng kalau ada lagi! 😊
+                        </p>
+                        <div class="comment-reactions">
+                            <button class="reaction-btn">❤️ 15</button>
+                            <button class="reaction-btn">Balas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment 4 -->
+                <div class="comment-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rudi" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">Rudi Hermawan</span>
+                            <span class="comment-time">20 menit yang lalu</span>
+                        </div>
+                        <p class="comment-text">
+                            Tips nya dong biar fokus belajar bareng tapi tetap produktif!
+                        </p>
+                        <div class="comment-reactions">
+                            <button class="reaction-btn">❤️ 5</button>
+                            <button class="reaction-btn">Balas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment 5 -->
+                <div class="comment-item">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Nina" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">Nina Kartika</span>
+                            <span class="comment-time">10 menit yang lalu</span>
+                        </div>
+                        <p class="comment-text">
+                            Inspiring! Kalian belajarnya di mana? Pengen tau tempatnya yang nyaman buat belajar kelompok 📖
+                        </p>
+                        <div class="comment-reactions">
+                            <button class="reaction-btn">❤️ 9</button>
+                            <button class="reaction-btn">Balas</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function postComment() {
+            const input = document.getElementById('commentInput');
+            if (input.value.trim() === '') {
+                alert('Tulis komentar dulu ya!');
+                return;
+            }
+            
+            alert('Komentar berhasil dikirim! 🎉');
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
