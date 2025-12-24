@@ -1,0 +1,489 @@
+<?php
+class IRISEducationDatabase {
+    private $conn;
+    
+    public function __construct($connection) {
+        $this->conn = $connection;
+    }
+    
+    /**
+     * Setup semua tabel database
+     */
+    public function setupDatabase() {
+        $this->createEventsTable();
+        $this->createEventParticipantsTable();
+        $this->createTryoutsTable();
+        $this->createTryoutSessionsTable();
+        $this->createTryoutQuestionsTable();
+        $this->createTryoutAnswerOptionsTable();
+        $this->createTryoutUserAnswersTable();
+        $this->createPersonalConversationsTable();
+        $this->createPersonalMessagesTable();
+        $this->createGroupConversationsTable();
+        $this->createGroupMembersTable();
+        $this->createGroupMessagesTable();
+        $this->createGroupMessageReadsTable();
+        $this->createPostsTable();
+        $this->createPostCommentsTable();
+        $this->createPostLikesTable();
+        $this->createCommentLikesTable();
+        $this->createPostReportsTable();
+        $this->createNotificationsTable();
+    }
+    
+    /**
+     * CATATAN: Tabel users sudah ada di database
+     * Foreign key akan mereferensi ke tabel users yang existing
+     */
+    
+    /**
+     * ============================================
+     * 1. TABEL EVENT
+     * ============================================
+     */
+    private function createEventsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS events (
+            event_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            event_name VARCHAR(255) NOT NULL,
+            event_type ENUM('tryout', 'webinar', 'workshop', 'competition') NOT NULL,
+            description TEXT,
+            banner_url TEXT,
+            start_date DATETIME NOT NULL,
+            end_date DATETIME NOT NULL,
+            registration_start DATETIME,
+            registration_end DATETIME,
+            max_participants INT,
+            current_participants INT DEFAULT 0,
+            is_free BOOLEAN DEFAULT TRUE,
+            price DECIMAL(10, 2) DEFAULT 0,
+            status ENUM('draft', 'published', 'ongoing', 'completed', 'cancelled') DEFAULT 'draft',
+            created_by BIGINT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE SET NULL,
+            INDEX idx_event_dates (start_date, end_date),
+            INDEX idx_event_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createEventParticipantsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS event_participants (
+            participant_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            event_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            payment_status ENUM('pending', 'paid', 'failed', 'refunded') DEFAULT 'pending',
+            attendance_status ENUM('registered', 'attended', 'absent') DEFAULT 'registered',
+            certificate_url TEXT,
+            FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            UNIQUE KEY unique_event_user (event_id, user_id),
+            INDEX idx_user_events (user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    /**
+     * ============================================
+     * 2. TABEL TRYOUT
+     * ============================================
+     */
+    private function createTryoutsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS tryouts (
+            tryout_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            event_id BIGINT,
+            tryout_name VARCHAR(255) NOT NULL,
+            tryout_code VARCHAR(50) UNIQUE NOT NULL,
+            description TEXT,
+            test_type ENUM('UTBK', 'SNBT', 'Custom') DEFAULT 'UTBK',
+            duration_minutes INT NOT NULL,
+            total_questions INT NOT NULL,
+            passing_grade DECIMAL(5, 2),
+            start_time DATETIME NOT NULL,
+            end_time DATETIME NOT NULL,
+            is_active BOOLEAN DEFAULT TRUE,
+            shuffle_questions BOOLEAN DEFAULT TRUE,
+            show_result_immediately BOOLEAN DEFAULT FALSE,
+            created_by BIGINT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE SET NULL,
+            FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE SET NULL,
+            INDEX idx_tryout_dates (start_time, end_time),
+            INDEX idx_tryout_code (tryout_code)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createTryoutSessionsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS tryout_sessions (
+            session_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            tryout_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            end_time TIMESTAMP NULL,
+            duration_seconds INT,
+            total_score DECIMAL(6, 2),
+            correct_answers INT DEFAULT 0,
+            wrong_answers INT DEFAULT 0,
+            unanswered INT DEFAULT 0,
+            status ENUM('in_progress', 'completed', 'abandoned') DEFAULT 'in_progress',
+            ranking INT,
+            FOREIGN KEY (tryout_id) REFERENCES tryouts(tryout_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            INDEX idx_user_sessions (user_id),
+            INDEX idx_tryout_ranking (tryout_id, total_score DESC)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createTryoutQuestionsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS tryout_questions (
+            question_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            tryout_id BIGINT NOT NULL,
+            question_text TEXT NOT NULL,
+            question_image_url TEXT,
+            question_type ENUM('multiple_choice', 'essay') DEFAULT 'multiple_choice',
+            subject ENUM('matematika', 'fisika', 'kimia', 'biologi', 'bahasa_indonesia', 'bahasa_inggris', 'sejarah', 'geografi', 'ekonomi', 'sosiologi') NOT NULL,
+            difficulty ENUM('easy', 'medium', 'hard') DEFAULT 'medium',
+            points DECIMAL(5, 2) DEFAULT 1.00,
+            order_number INT,
+            FOREIGN KEY (tryout_id) REFERENCES tryouts(tryout_id) ON DELETE CASCADE,
+            INDEX idx_tryout_questions (tryout_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createTryoutAnswerOptionsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS tryout_answer_options (
+            option_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            question_id BIGINT NOT NULL,
+            option_label CHAR(1) NOT NULL,
+            option_text TEXT NOT NULL,
+            option_image_url TEXT,
+            is_correct BOOLEAN DEFAULT FALSE,
+            FOREIGN KEY (question_id) REFERENCES tryout_questions(question_id) ON DELETE CASCADE,
+            INDEX idx_question_options (question_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createTryoutUserAnswersTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS tryout_user_answers (
+            answer_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            session_id BIGINT NOT NULL,
+            question_id BIGINT NOT NULL,
+            selected_option_id BIGINT,
+            essay_answer TEXT,
+            is_correct BOOLEAN,
+            time_spent_seconds INT,
+            answered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (session_id) REFERENCES tryout_sessions(session_id) ON DELETE CASCADE,
+            FOREIGN KEY (question_id) REFERENCES tryout_questions(question_id) ON DELETE CASCADE,
+            FOREIGN KEY (selected_option_id) REFERENCES tryout_answer_options(option_id) ON DELETE SET NULL,
+            UNIQUE KEY unique_session_question (session_id, question_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    /**
+     * ============================================
+     * 3. TABEL RIWAYAT PERCAKAPAN PERSONAL (Ruang Curhat)
+     * ============================================
+     */
+    private function createPersonalConversationsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS personal_conversations (
+            conversation_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            user_id BIGINT NOT NULL,
+            mentor_id BIGINT,
+            conversation_topic VARCHAR(255),
+            status ENUM('active', 'closed', 'archived') DEFAULT 'active',
+            priority ENUM('low', 'medium', 'high', 'urgent') DEFAULT 'medium',
+            started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_message_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            closed_at TIMESTAMP NULL,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            FOREIGN KEY (mentor_id) REFERENCES users(user_id) ON DELETE SET NULL,
+            INDEX idx_user_conversations (user_id),
+            INDEX idx_mentor_conversations (mentor_id),
+            INDEX idx_conversation_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createPersonalMessagesTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS personal_messages (
+            message_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            conversation_id BIGINT NOT NULL,
+            sender_id BIGINT NOT NULL,
+            message_text TEXT NOT NULL,
+            attachment_url TEXT,
+            attachment_type ENUM('image', 'document', 'video', 'audio') NULL,
+            is_read BOOLEAN DEFAULT FALSE,
+            read_at TIMESTAMP NULL,
+            sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            edited_at TIMESTAMP NULL,
+            is_deleted BOOLEAN DEFAULT FALSE,
+            FOREIGN KEY (conversation_id) REFERENCES personal_conversations(conversation_id) ON DELETE CASCADE,
+            FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            INDEX idx_conversation_messages (conversation_id, sent_at),
+            INDEX idx_sender_messages (sender_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    /**
+     * ============================================
+     * 4. TABEL RIWAYAT PERCAKAPAN GRUP
+     * ============================================
+     */
+    private function createGroupConversationsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS group_conversations (
+            group_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            group_name VARCHAR(255) NOT NULL,
+            group_description TEXT,
+            group_avatar_url TEXT,
+            group_type ENUM('study_group', 'class', 'discussion', 'support') DEFAULT 'study_group',
+            max_members INT DEFAULT 50,
+            current_members INT DEFAULT 0,
+            is_private BOOLEAN DEFAULT FALSE,
+            created_by BIGINT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE,
+            INDEX idx_group_type (group_type)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createGroupMembersTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS group_members (
+            member_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            group_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            role ENUM('admin', 'moderator', 'member') DEFAULT 'member',
+            joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_read_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            is_muted BOOLEAN DEFAULT FALSE,
+            FOREIGN KEY (group_id) REFERENCES group_conversations(group_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            UNIQUE KEY unique_group_user (group_id, user_id),
+            INDEX idx_user_groups (user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createGroupMessagesTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS group_messages (
+            message_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            group_id BIGINT NOT NULL,
+            sender_id BIGINT NOT NULL,
+            message_text TEXT NOT NULL,
+            attachment_url TEXT,
+            attachment_type ENUM('image', 'document', 'video', 'audio') NULL,
+            is_pinned BOOLEAN DEFAULT FALSE,
+            reply_to_message_id BIGINT,
+            sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            edited_at TIMESTAMP NULL,
+            is_deleted BOOLEAN DEFAULT FALSE,
+            FOREIGN KEY (group_id) REFERENCES group_conversations(group_id) ON DELETE CASCADE,
+            FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            FOREIGN KEY (reply_to_message_id) REFERENCES group_messages(message_id) ON DELETE SET NULL,
+            INDEX idx_group_messages (group_id, sent_at),
+            INDEX idx_sender_group_messages (sender_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createGroupMessageReadsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS group_message_reads (
+            read_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            message_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            read_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (message_id) REFERENCES group_messages(message_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            UNIQUE KEY unique_message_user_read (message_id, user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    /**
+     * ============================================
+     * 5. TABEL RIWAYAT BALASAN POSTINGAN (Forum/Feed)
+     * ============================================
+     */
+    private function createPostsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS posts (
+            post_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            user_id BIGINT NOT NULL,
+            title VARCHAR(500),
+            content TEXT NOT NULL,
+            post_type ENUM('discussion', 'question', 'announcement', 'achievement') DEFAULT 'discussion',
+            category ENUM('study_tips', 'motivation', 'university', 'career', 'general') DEFAULT 'general',
+            tags JSON,
+            media_url TEXT,
+            media_type ENUM('image', 'video', 'document') NULL,
+            view_count INT DEFAULT 0,
+            like_count INT DEFAULT 0,
+            comment_count INT DEFAULT 0,
+            is_pinned BOOLEAN DEFAULT FALSE,
+            is_locked BOOLEAN DEFAULT FALSE,
+            status ENUM('published', 'draft', 'deleted', 'reported') DEFAULT 'published',
+            posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            edited_at TIMESTAMP NULL,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            INDEX idx_user_posts (user_id),
+            INDEX idx_post_type (post_type),
+            INDEX idx_post_status (status),
+            INDEX idx_posted_at (posted_at DESC),
+            FULLTEXT INDEX idx_post_search (title, content)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createPostCommentsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS post_comments (
+            comment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            post_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            parent_comment_id BIGINT,
+            comment_text TEXT NOT NULL,
+            media_url TEXT,
+            media_type ENUM('image', 'video') NULL,
+            like_count INT DEFAULT 0,
+            reply_count INT DEFAULT 0,
+            is_edited BOOLEAN DEFAULT FALSE,
+            is_deleted BOOLEAN DEFAULT FALSE,
+            commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            edited_at TIMESTAMP NULL,
+            FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            FOREIGN KEY (parent_comment_id) REFERENCES post_comments(comment_id) ON DELETE CASCADE,
+            INDEX idx_post_comments (post_id, commented_at),
+            INDEX idx_user_comments (user_id),
+            INDEX idx_parent_comments (parent_comment_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createPostLikesTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS post_likes (
+            like_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            post_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            UNIQUE KEY unique_post_like (post_id, user_id),
+            INDEX idx_user_likes (user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createCommentLikesTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS comment_likes (
+            like_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            comment_id BIGINT NOT NULL,
+            user_id BIGINT NOT NULL,
+            liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (comment_id) REFERENCES post_comments(comment_id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            UNIQUE KEY unique_comment_like (comment_id, user_id),
+            INDEX idx_user_comment_likes (user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    private function createPostReportsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS post_reports (
+            report_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            post_id BIGINT,
+            comment_id BIGINT,
+            reported_by BIGINT NOT NULL,
+            report_reason ENUM('spam', 'harassment', 'inappropriate', 'misinformation', 'other') NOT NULL,
+            report_description TEXT,
+            status ENUM('pending', 'reviewed', 'resolved', 'dismissed') DEFAULT 'pending',
+            reviewed_by BIGINT,
+            reported_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            reviewed_at TIMESTAMP NULL,
+            FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
+            FOREIGN KEY (comment_id) REFERENCES post_comments(comment_id) ON DELETE CASCADE,
+            FOREIGN KEY (reported_by) REFERENCES users(user_id) ON DELETE CASCADE,
+            FOREIGN KEY (reviewed_by) REFERENCES users(user_id) ON DELETE SET NULL,
+            INDEX idx_report_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+    
+    /**
+     * ============================================
+     * TABEL TAMBAHAN UNTUK NOTIFIKASI
+     * ============================================
+     */
+    private function createNotificationsTable() {
+        $sql = "CREATE TABLE IF NOT EXISTS notifications (
+            notification_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+            user_id BIGINT NOT NULL,
+            type ENUM('event', 'tryout', 'message', 'comment', 'like', 'mention', 'system') NOT NULL,
+            title VARCHAR(255) NOT NULL,
+            content TEXT,
+            reference_id BIGINT,
+            reference_type VARCHAR(50),
+            is_read BOOLEAN DEFAULT FALSE,
+            read_at TIMESTAMP NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+            INDEX idx_user_notifications (user_id, is_read),
+            INDEX idx_notification_created (created_at DESC)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+        
+        $this->conn->query($sql);
+    }
+}
+
+/**
+ * ============================================
+ * CONTOH PENGGUNAAN
+ * ============================================
+ */
+
+// Koneksi database
+$host = 'localhost';
+$dbname = 'iris_education';
+$username = 'root';
+$password = '';
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Setup database
+    $database = new IRISEducationDatabase($conn);
+    $database->setupDatabase();
+    
+    echo "Database IRIS Education berhasil dibuat!";
+    
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>

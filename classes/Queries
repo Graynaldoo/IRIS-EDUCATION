@@ -1,0 +1,1179 @@
+<?php
+class IRISEducationQueries {
+    private $conn;
+    
+    public function __construct($connection) {
+        $this->conn = $connection;
+    }
+    
+    // ============================================
+    // 1. EVENT QUERIES
+    // ============================================
+    
+    /**
+     * Create Event Baru
+     */
+    public function createEvent($data) {
+        $sql = "INSERT INTO events (
+            event_name, event_type, description, banner_url,
+            start_date, end_date, registration_start, registration_end,
+            max_participants, is_free, price, status, created_by
+        ) VALUES (
+            :event_name, :event_type, :description, :banner_url,
+            :start_date, :end_date, :registration_start, :registration_end,
+            :max_participants, :is_free, :price, :status, :created_by
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($data);
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Get Event dengan Jumlah Peserta
+     */
+    public function getEventWithParticipants($event_id) {
+        $sql = "SELECT e.*, 
+                COUNT(ep.participant_id) as total_participants,
+                u.full_name as creator_name
+                FROM events e
+                LEFT JOIN event_participants ep ON e.event_id = ep.event_id
+                LEFT JOIN users u ON e.created_by = u.user_id
+                WHERE e.event_id = :event_id
+                GROUP BY e.event_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['event_id' => $event_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Get Semua Event Aktif dengan Pagination
+     */
+    public function getActiveEvents($page = 1, $limit = 10) {
+        $offset = ($page - 1) * $limit;
+        
+        $sql = "SELECT e.*, 
+                COUNT(ep.participant_id) as total_participants,
+                u.full_name as creator_name
+                FROM events e
+                LEFT JOIN event_participants ep ON e.event_id = ep.event_id
+                LEFT JOIN users u ON e.created_by = u.user_id
+                WHERE e.status IN ('published', 'ongoing')
+                AND e.start_date >= NOW()
+                GROUP BY e.event_id
+                ORDER BY e.start_date ASC
+                LIMIT :limit OFFSET :offset";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Daftar User ke Event
+     */
+    public function registerUserToEvent($event_id, $user_id) {
+        // Check apakah event masih bisa didaftar
+        $sql = "SELECT max_participants, current_participants, registration_end 
+                FROM events WHERE event_id = :event_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['event_id' => $event_id]);
+        $event = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($event['current_participants'] >= $event['max_participants']) {
+            throw new Exception("Event sudah penuh!");
+        }
+        
+        if (strtotime($event['registration_end']) < time()) {
+            throw new Exception("Pendaftaran sudah ditutup!");
+        }
+        
+        // Daftar user
+        $sql = "INSERT INTO event_participants (event_id, user_id, payment_status)
+                VALUES (:event_id, :user_id, 'pending')";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['event_id' => $event_id, 'user_id' => $user_id]);
+        
+        // Update jumlah peserta
+        $sql = "UPDATE events SET current_participants = current_participants + 1
+                WHERE event_id = :event_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['event_id' => $event_id]);
+        
+        return true;
+    }
+    
+    /**
+     * Get Event History User
+     */
+    public function getUserEventHistory($user_id) {
+        $sql = "SELECT e.*, ep.registration_date, ep.payment_status, 
+                ep.attendance_status, ep.certificate_url
+                FROM event_participants ep
+                JOIN events e ON ep.event_id = e.event_id
+                WHERE ep.user_id = :user_id
+                ORDER BY ep.registration_date DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    // ============================================
+    // 2. TRYOUT QUERIES
+    // ============================================
+    
+    /**
+     * Create Tryout Baru
+     */
+    public function createTryout($data) {
+        $sql = "INSERT INTO tryouts (
+            event_id, tryout_name, tryout_code, description, test_type,
+            duration_minutes, total_questions, passing_grade,
+            start_time, end_time, shuffle_questions, show_result_immediately, created_by
+        ) VALUES (
+            :event_id, :tryout_name, :tryout_code, :description, :test_type,
+            :duration_minutes, :total_questions, :passing_grade,
+            :start_time, :end_time, :shuffle_questions, :show_result_immediately, :created_by
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($data);
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Add Soal ke Tryout
+     */
+    public function addQuestionToTryout($tryout_id, $question_data) {
+        $sql = "INSERT INTO tryout_questions (
+            tryout_id, question_text, question_image_url, question_type,
+            subject, difficulty, points, order_number
+        ) VALUES (
+            :tryout_id, :question_text, :question_image_url, :question_type,
+            :subject, :difficulty, :points, :order_number
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $question_data['tryout_id'] = $tryout_id;
+        $stmt->execute($question_data);
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Add Opsi Jawaban ke Soal
+     */
+    public function addAnswerOption($question_id, $option_data) {
+        $sql = "INSERT INTO tryout_answer_options (
+            question_id, option_label, option_text, option_image_url, is_correct
+        ) VALUES (
+            :question_id, :option_label, :option_text, :option_image_url, :is_correct
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $option_data['question_id'] = $question_id;
+        $stmt->execute($option_data);
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Start Tryout Session
+     */
+    public function startTryoutSession($tryout_id, $user_id) {
+        $sql = "INSERT INTO tryout_sessions (tryout_id, user_id, status)
+                VALUES (:tryout_id, :user_id, 'in_progress')";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['tryout_id' => $tryout_id, 'user_id' => $user_id]);
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Get Tryout dengan Soal (untuk dikerjakan)
+     */
+    public function getTryoutWithQuestions($tryout_id, $shuffle = true) {
+        // Get tryout info
+        $sql = "SELECT * FROM tryouts WHERE tryout_id = :tryout_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['tryout_id' => $tryout_id]);
+        $tryout = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Get questions dengan options
+        $order = $shuffle ? "RAND()" : "tq.order_number";
+        $sql = "SELECT tq.*, 
+                GROUP_CONCAT(
+                    CONCAT_WS('|', tao.option_id, tao.option_label, tao.option_text, tao.option_image_url)
+                    ORDER BY tao.option_label
+                    SEPARATOR '||'
+                ) as options
+                FROM tryout_questions tq
+                LEFT JOIN tryout_answer_options tao ON tq.question_id = tao.question_id
+                WHERE tq.tryout_id = :tryout_id
+                GROUP BY tq.question_id
+                ORDER BY $order";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['tryout_id' => $tryout_id]);
+        $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Parse options
+        foreach ($questions as &$question) {
+            $options_raw = explode('||', $question['options']);
+            $options = [];
+            foreach ($options_raw as $opt) {
+                $parts = explode('|', $opt);
+                $options[] = [
+                    'option_id' => $parts[0],
+                    'option_label' => $parts[1],
+                    'option_text' => $parts[2],
+                    'option_image_url' => $parts[3] ?? null
+                ];
+            }
+            $question['options'] = $options;
+        }
+        
+        $tryout['questions'] = $questions;
+        return $tryout;
+    }
+    
+    /**
+     * Submit Jawaban User
+     */
+    public function submitAnswer($session_id, $question_id, $selected_option_id, $time_spent) {
+        // Get correct answer
+        $sql = "SELECT is_correct FROM tryout_answer_options WHERE option_id = :option_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['option_id' => $selected_option_id]);
+        $is_correct = $stmt->fetchColumn();
+        
+        // Save answer
+        $sql = "INSERT INTO tryout_user_answers (
+            session_id, question_id, selected_option_id, is_correct, time_spent_seconds
+        ) VALUES (
+            :session_id, :question_id, :selected_option_id, :is_correct, :time_spent_seconds
+        ) ON DUPLICATE KEY UPDATE
+            selected_option_id = :selected_option_id,
+            is_correct = :is_correct,
+            time_spent_seconds = :time_spent_seconds";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'session_id' => $session_id,
+            'question_id' => $question_id,
+            'selected_option_id' => $selected_option_id,
+            'is_correct' => $is_correct,
+            'time_spent_seconds' => $time_spent
+        ]);
+        
+        return $is_correct;
+    }
+    
+    /**
+     * Finish Tryout Session & Calculate Score
+     */
+    public function finishTryoutSession($session_id) {
+        // Calculate score
+        $sql = "SELECT 
+                COUNT(*) as total_answered,
+                SUM(CASE WHEN is_correct = 1 THEN 1 ELSE 0 END) as correct_answers,
+                SUM(CASE WHEN is_correct = 0 THEN 1 ELSE 0 END) as wrong_answers,
+                SUM(tq.points * tua.is_correct) as total_score
+                FROM tryout_user_answers tua
+                JOIN tryout_questions tq ON tua.question_id = tq.question_id
+                WHERE tua.session_id = :session_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['session_id' => $session_id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Get total questions
+        $sql = "SELECT t.total_questions
+                FROM tryout_sessions ts
+                JOIN tryouts t ON ts.tryout_id = t.tryout_id
+                WHERE ts.session_id = :session_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['session_id' => $session_id]);
+        $total_questions = $stmt->fetchColumn();
+        
+        $unanswered = $total_questions - $result['total_answered'];
+        
+        // Update session
+        $sql = "UPDATE tryout_sessions SET
+                end_time = NOW(),
+                duration_seconds = TIMESTAMPDIFF(SECOND, start_time, NOW()),
+                total_score = :total_score,
+                correct_answers = :correct_answers,
+                wrong_answers = :wrong_answers,
+                unanswered = :unanswered,
+                status = 'completed'
+                WHERE session_id = :session_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'total_score' => $result['total_score'],
+            'correct_answers' => $result['correct_answers'],
+            'wrong_answers' => $result['wrong_answers'],
+            'unanswered' => $unanswered,
+            'session_id' => $session_id
+        ]);
+        
+        // Update ranking
+        $this->updateTryoutRanking($session_id);
+        
+        return $result;
+    }
+    
+    /**
+     * Update Ranking Tryout
+     */
+    private function updateTryoutRanking($session_id) {
+        // Get tryout_id
+        $sql = "SELECT tryout_id FROM tryout_sessions WHERE session_id = :session_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['session_id' => $session_id]);
+        $tryout_id = $stmt->fetchColumn();
+        
+        // Update all rankings for this tryout
+        $sql = "UPDATE tryout_sessions ts1
+                JOIN (
+                    SELECT session_id, 
+                    @rank := @rank + 1 as ranking
+                    FROM tryout_sessions, (SELECT @rank := 0) r
+                    WHERE tryout_id = :tryout_id AND status = 'completed'
+                    ORDER BY total_score DESC, duration_seconds ASC
+                ) ts2 ON ts1.session_id = ts2.session_id
+                SET ts1.ranking = ts2.ranking";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['tryout_id' => $tryout_id]);
+    }
+    
+    /**
+     * Get Leaderboard Tryout
+     */
+    public function getTryoutLeaderboard($tryout_id, $limit = 100) {
+        $sql = "SELECT ts.*, u.full_name, u.username, u.profile_picture_url
+                FROM tryout_sessions ts
+                JOIN users u ON ts.user_id = u.user_id
+                WHERE ts.tryout_id = :tryout_id 
+                AND ts.status = 'completed'
+                ORDER BY ts.ranking ASC
+                LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':tryout_id', $tryout_id, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Get Pembahasan Tryout (setelah selesai)
+     */
+    public function getTryoutReview($session_id) {
+        $sql = "SELECT 
+                tq.question_text, tq.question_image_url, tq.subject,
+                tua.selected_option_id, tua.is_correct, tua.time_spent_seconds,
+                tao_user.option_label as user_answer_label,
+                tao_user.option_text as user_answer_text,
+                tao_correct.option_label as correct_answer_label,
+                tao_correct.option_text as correct_answer_text
+                FROM tryout_user_answers tua
+                JOIN tryout_questions tq ON tua.question_id = tq.question_id
+                LEFT JOIN tryout_answer_options tao_user ON tua.selected_option_id = tao_user.option_id
+                LEFT JOIN tryout_answer_options tao_correct ON tq.question_id = tao_correct.question_id AND tao_correct.is_correct = 1
+                WHERE tua.session_id = :session_id
+                ORDER BY tq.order_number";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['session_id' => $session_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Get Riwayat Tryout User
+     */
+    public function getUserTryoutHistory($user_id) {
+        $sql = "SELECT ts.*, t.tryout_name, t.test_type, t.total_questions
+                FROM tryout_sessions ts
+                JOIN tryouts t ON ts.tryout_id = t.tryout_id
+                WHERE ts.user_id = :user_id
+                ORDER BY ts.start_time DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    // ============================================
+    // 3. PERSONAL CONVERSATION QUERIES (Ruang Curhat)
+    // ============================================
+    
+    /**
+     * Start Percakapan Personal Baru
+     */
+    public function startPersonalConversation($user_id, $mentor_id, $topic) {
+        $sql = "INSERT INTO personal_conversations (user_id, mentor_id, conversation_topic)
+                VALUES (:user_id, :mentor_id, :topic)";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'user_id' => $user_id,
+            'mentor_id' => $mentor_id,
+            'topic' => $topic
+        ]);
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Send Personal Message
+     */
+    public function sendPersonalMessage($conversation_id, $sender_id, $message_text, $attachment = null, $attachment_type = null) {
+        $sql = "INSERT INTO personal_messages (
+            conversation_id, sender_id, message_text, attachment_url, attachment_type
+        ) VALUES (
+            :conversation_id, :sender_id, :message_text, :attachment_url, :attachment_type
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'conversation_id' => $conversation_id,
+            'sender_id' => $sender_id,
+            'message_text' => $message_text,
+            'attachment_url' => $attachment,
+            'attachment_type' => $attachment_type
+        ]);
+        
+        // Update last_message_at
+        $sql = "UPDATE personal_conversations SET last_message_at = NOW()
+                WHERE conversation_id = :conversation_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['conversation_id' => $conversation_id]);
+        
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Get Percakapan dengan Messages
+     */
+    public function getPersonalConversationMessages($conversation_id, $user_id) {
+        // Get conversation info
+        $sql = "SELECT pc.*, 
+                u1.full_name as user_name, u1.profile_picture_url as user_photo,
+                u2.full_name as mentor_name, u2.profile_picture_url as mentor_photo
+                FROM personal_conversations pc
+                JOIN users u1 ON pc.user_id = u1.user_id
+                LEFT JOIN users u2 ON pc.mentor_id = u2.user_id
+                WHERE pc.conversation_id = :conversation_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['conversation_id' => $conversation_id]);
+        $conversation = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Get messages
+        $sql = "SELECT pm.*, u.full_name, u.profile_picture_url
+                FROM personal_messages pm
+                JOIN users u ON pm.sender_id = u.user_id
+                WHERE pm.conversation_id = :conversation_id
+                AND pm.is_deleted = 0
+                ORDER BY pm.sent_at ASC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['conversation_id' => $conversation_id]);
+        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Mark as read
+        $sql = "UPDATE personal_messages SET is_read = 1, read_at = NOW()
+                WHERE conversation_id = :conversation_id 
+                AND sender_id != :user_id 
+                AND is_read = 0";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['conversation_id' => $conversation_id, 'user_id' => $user_id]);
+        
+        $conversation['messages'] = $messages;
+        return $conversation;
+    }
+    
+    /**
+     * Get List Percakapan User
+     */
+    public function getUserConversations($user_id) {
+        $sql = "SELECT pc.*, 
+                CASE WHEN pc.user_id = :user_id THEN u2.full_name ELSE u1.full_name END as other_person_name,
+                CASE WHEN pc.user_id = :user_id THEN u2.profile_picture_url ELSE u1.profile_picture_url END as other_person_photo,
+                (SELECT COUNT(*) FROM personal_messages WHERE conversation_id = pc.conversation_id AND sender_id != :user_id AND is_read = 0) as unread_count,
+                (SELECT message_text FROM personal_messages WHERE conversation_id = pc.conversation_id ORDER BY sent_at DESC LIMIT 1) as last_message
+                FROM personal_conversations pc
+                JOIN users u1 ON pc.user_id = u1.user_id
+                LEFT JOIN users u2 ON pc.mentor_id = u2.user_id
+                WHERE pc.user_id = :user_id OR pc.mentor_id = :user_id
+                ORDER BY pc.last_message_at DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    // ============================================
+    // 4. GROUP CONVERSATION QUERIES
+    // ============================================
+    
+    /**
+     * Create Group Baru
+     */
+    public function createGroup($group_name, $description, $group_type, $created_by) {
+        $sql = "INSERT INTO group_conversations (
+            group_name, group_description, group_type, created_by
+        ) VALUES (
+            :group_name, :group_description, :group_type, :created_by
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'group_name' => $group_name,
+            'group_description' => $description,
+            'group_type' => $group_type,
+            'created_by' => $created_by
+        ]);
+        
+        $group_id = $this->conn->lastInsertId();
+        
+        // Auto join creator as admin
+        $this->addGroupMember($group_id, $created_by, 'admin');
+        
+        return $group_id;
+    }
+    
+    /**
+     * Add Member ke Group
+     */
+    public function addGroupMember($group_id, $user_id, $role = 'member') {
+        $sql = "INSERT INTO group_members (group_id, user_id, role)
+                VALUES (:group_id, :user_id, :role)";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'group_id' => $group_id,
+            'user_id' => $user_id,
+            'role' => $role
+        ]);
+        
+        // Update member count
+        $sql = "UPDATE group_conversations SET current_members = current_members + 1
+                WHERE group_id = :group_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['group_id' => $group_id]);
+        
+        return true;
+    }
+    
+    /**
+     * Send Group Message
+     */
+    public function sendGroupMessage($group_id, $sender_id, $message_text, $reply_to = null) {
+        $sql = "INSERT INTO group_messages (
+            group_id, sender_id, message_text, reply_to_message_id
+        ) VALUES (
+            :group_id, :sender_id, :message_text, :reply_to_message_id
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'group_id' => $group_id,
+            'sender_id' => $sender_id,
+            'message_text' => $message_text,
+            'reply_to_message_id' => $reply_to
+        ]);
+        
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Get Group Messages dengan Members
+     */
+    public function getGroupMessages($group_id, $user_id, $limit = 50) {
+        // Get group info
+        $sql = "SELECT gc.*, u.full_name as creator_name
+                FROM group_conversations gc
+                JOIN users u ON gc.created_by = u.user_id
+                WHERE gc.group_id = :group_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['group_id' => $group_id]);
+        $group = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Get members
+        $sql = "SELECT gm.*, u.full_name, u.username, u.profile_picture_url
+                FROM group_members gm
+                JOIN users u ON gm.user_id = u.user_id
+                WHERE gm.group_id = :group_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['group_id' => $group_id]);
+        $group['members'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Get messages
+        $sql = "SELECT gm.*, u.full_name, u.username, u.profile_picture_url,
+                rm.message_text as reply_to_text, ru.full_name as reply_to_name
+                FROM group_messages gm
+                JOIN users u ON gm.sender_id = u.user_id
+                LEFT JOIN group_messages rm ON gm.reply_to_message_id = rm.message_id
+                LEFT JOIN users ru ON rm.sender_id = ru.user_id
+                WHERE gm.group_id = :group_id
+                AND gm.is_deleted = 0
+                ORDER BY gm.sent_at DESC
+                LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':group_id', $group_id, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $group['messages'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Update last read
+        $sql = "UPDATE group_members SET last_read_at = NOW()
+                WHERE group_id = :group_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['group_id' => $group_id, 'user_id' => $user_id]);
+        
+        return $group;
+    }
+    
+    /**
+     * Get User Groups
+     */
+    public function getUserGroups($user_id) {
+        $sql = "SELECT gc.*, gm.role, gm.last_read_at,
+                (SELECT COUNT(*) FROM group_messages 
+                 WHERE group_id = gc.group_id 
+                 AND sent_at > gm.last_read_at 
+                 AND sender_id != :user_id) as unread_count
+                FROM group_members gm
+                JOIN group_conversations gc ON gm.group_id = gc.group_id
+                WHERE gm.user_id = :user_id
+                ORDER BY gc.updated_at DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    // ============================================
+    // 5. POST & COMMENT QUERIES (Forum)
+    // ============================================
+    
+    /**
+     * Create Post Baru
+     */
+    public function createPost($user_id, $title, $content, $post_type, $category, $tags = null) {
+        $sql = "INSERT INTO posts (
+            user_id, title, content, post_type, category, tags
+        ) VALUES (
+            :user_id, :title, :content, :post_type, :category, :tags
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'user_id' => $user_id,
+            'title' => $title,
+            'content' => $content,
+            'post_type' => $post_type,
+            'category' => $category,
+            'tags' => $tags ? json_encode($tags) : null
+        ]);
+        
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Get Post dengan Detail User dan Stats
+     */
+    public function getPostDetail($post_id, $user_id = null) {
+        $sql = "SELECT p.*, u.full_name, u.username, u.profile_picture_url,
+                " . ($user_id ? "(SELECT COUNT(*) FROM post_likes WHERE post_id = p.post_id AND user_id = :user_id) as user_liked" : "0 as user_liked") . "
+                FROM posts p
+                JOIN users u ON p.user_id = u.user_id
+                WHERE p.post_id = :post_id AND p.status = 'published'";
+        
+        $stmt = $this->conn->prepare($sql);
+        $params = ['post_id' => $post_id];
+        if ($user_id) $params['user_id'] = $user_id;
+        $stmt->execute($params);
+        
+        $post = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Update view count
+        $sql = "UPDATE posts SET view_count = view_count + 1 WHERE post_id = :post_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id]);
+        
+        return $post;
+    }
+    
+    /**
+     * Get Posts dengan Pagination & Filter
+     */
+    public function getPosts($page = 1, $limit = 20, $category = null, $post_type = null, $search = null) {
+        $offset = ($page - 1) * $limit;
+        
+        $where = ["p.status = 'published'"];
+        $params = [];
+        
+        if ($category) {
+            $where[] = "p.category = :category";
+            $params['category'] = $category;
+        }
+        
+        if ($post_type) {
+            $where[] = "p.post_type = :post_type";
+            $params['post_type'] = $post_type;
+        }
+        
+        if ($search) {
+            $where[] = "(p.title LIKE :search OR p.content LIKE :search)";
+            $params['search'] = "%$search%";
+        }
+        
+        $where_clause = implode(' AND ', $where);
+        
+        $sql = "SELECT p.*, u.full_name, u.username, u.profile_picture_url
+                FROM posts p
+                JOIN users u ON p.user_id = u.user_id
+                WHERE $where_clause
+                ORDER BY p.is_pinned DESC, p.posted_at DESC
+                LIMIT :limit OFFSET :offset";
+        
+        $stmt = $this->conn->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Add Comment ke Post
+     */
+    public function addComment($post_id, $user_id, $comment_text, $parent_comment_id = null) {
+        $sql = "INSERT INTO post_comments (
+            post_id, user_id, comment_text, parent_comment_id
+        ) VALUES (
+            :post_id, :user_id, :comment_text, :parent_comment_id
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'comment_text' => $comment_text,
+            'parent_comment_id' => $parent_comment_id
+        ]);
+        
+        $comment_id = $this->conn->lastInsertId();
+        
+        // Update comment count di post
+        $sql = "UPDATE posts SET comment_count = comment_count + 1 WHERE post_id = :post_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id]);
+        
+        // Update reply count di parent comment jika ada
+        if ($parent_comment_id) {
+            $sql = "UPDATE post_comments SET reply_count = reply_count + 1 
+                    WHERE comment_id = :parent_comment_id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['parent_comment_id' => $parent_comment_id]);
+        }
+        
+        return $comment_id;
+    }
+    
+    /**
+     * Get Comments untuk Post (dengan nested replies)
+     */
+    public function getPostComments($post_id) {
+        // Get parent comments
+        $sql = "SELECT pc.*, u.full_name, u.username, u.profile_picture_url
+                FROM post_comments pc
+                JOIN users u ON pc.user_id = u.user_id
+                WHERE pc.post_id = :post_id 
+                AND pc.parent_comment_id IS NULL
+                AND pc.is_deleted = 0
+                ORDER BY pc.commented_at DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id]);
+        $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Get replies untuk setiap comment
+        foreach ($comments as &$comment) {
+            $sql = "SELECT pc.*, u.full_name, u.username, u.profile_picture_url
+                    FROM post_comments pc
+                    JOIN users u ON pc.user_id = u.user_id
+                    WHERE pc.parent_comment_id = :parent_id
+                    AND pc.is_deleted = 0
+                    ORDER BY pc.commented_at ASC";
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['parent_id' => $comment['comment_id']]);
+            $comment['replies'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        return $comments;
+    }
+    
+    /**
+     * Like Post
+     */
+    public function likePost($post_id, $user_id) {
+        $sql = "INSERT INTO post_likes (post_id, user_id) 
+                VALUES (:post_id, :user_id)
+                ON DUPLICATE KEY UPDATE liked_at = NOW()";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id, 'user_id' => $user_id]);
+        
+        // Update like count
+        $sql = "UPDATE posts SET like_count = (
+                    SELECT COUNT(*) FROM post_likes WHERE post_id = :post_id
+                ) WHERE post_id = :post_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id]);
+        
+        return true;
+    }
+    
+    /**
+     * Unlike Post
+     */
+    public function unlikePost($post_id, $user_id) {
+        $sql = "DELETE FROM post_likes WHERE post_id = :post_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id, 'user_id' => $user_id]);
+        
+        // Update like count
+        $sql = "UPDATE posts SET like_count = (
+                    SELECT COUNT(*) FROM post_likes WHERE post_id = :post_id
+                ) WHERE post_id = :post_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['post_id' => $post_id]);
+        
+        return true;
+    }
+    
+    /**
+     * Like Comment
+     */
+    public function likeComment($comment_id, $user_id) {
+        $sql = "INSERT INTO comment_likes (comment_id, user_id) 
+                VALUES (:comment_id, :user_id)
+                ON DUPLICATE KEY UPDATE liked_at = NOW()";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['comment_id' => $comment_id, 'user_id' => $user_id]);
+        
+        // Update like count
+        $sql = "UPDATE post_comments SET like_count = (
+                    SELECT COUNT(*) FROM comment_likes WHERE comment_id = :comment_id
+                ) WHERE comment_id = :comment_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['comment_id' => $comment_id]);
+        
+        return true;
+    }
+    
+    /**
+     * Report Post atau Comment
+     */
+    public function reportContent($reported_by, $post_id = null, $comment_id = null, $reason, $description = null) {
+        $sql = "INSERT INTO post_reports (
+            post_id, comment_id, reported_by, report_reason, report_description
+        ) VALUES (
+            :post_id, :comment_id, :reported_by, :report_reason, :report_description
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'post_id' => $post_id,
+            'comment_id' => $comment_id,
+            'reported_by' => $reported_by,
+            'report_reason' => $reason,
+            'report_description' => $description
+        ]);
+        
+        return $this->conn->lastInsertId();
+    }
+    
+    // ============================================
+    // 6. NOTIFICATION QUERIES
+    // ============================================
+    
+    /**
+     * Create Notification
+     */
+    public function createNotification($user_id, $type, $title, $content, $reference_id = null, $reference_type = null) {
+        $sql = "INSERT INTO notifications (
+            user_id, type, title, content, reference_id, reference_type
+        ) VALUES (
+            :user_id, :type, :title, :content, :reference_id, :reference_type
+        )";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'user_id' => $user_id,
+            'type' => $type,
+            'title' => $title,
+            'content' => $content,
+            'reference_id' => $reference_id,
+            'reference_type' => $reference_type
+        ]);
+        
+        return $this->conn->lastInsertId();
+    }
+    
+    /**
+     * Get User Notifications
+     */
+    public function getUserNotifications($user_id, $limit = 20) {
+        $sql = "SELECT * FROM notifications
+                WHERE user_id = :user_id
+                ORDER BY created_at DESC
+                LIMIT :limit";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Mark Notification as Read
+     */
+    public function markNotificationAsRead($notification_id) {
+        $sql = "UPDATE notifications SET is_read = 1, read_at = NOW()
+                WHERE notification_id = :notification_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['notification_id' => $notification_id]);
+        
+        return true;
+    }
+    
+    /**
+     * Get Unread Notification Count
+     */
+    public function getUnreadNotificationCount($user_id) {
+        $sql = "SELECT COUNT(*) FROM notifications
+                WHERE user_id = :user_id AND is_read = 0";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        
+        return $stmt->fetchColumn();
+    }
+    
+    // ============================================
+    // 7. STATISTICS & ANALYTICS QUERIES
+    // ============================================
+    
+    /**
+     * Get User Statistics
+     */
+    public function getUserStatistics($user_id) {
+        $stats = [];
+        
+        // Total tryout yang sudah dikerjakan
+        $sql = "SELECT COUNT(*) FROM tryout_sessions 
+                WHERE user_id = :user_id AND status = 'completed'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        $stats['total_tryouts_completed'] = $stmt->fetchColumn();
+        
+        // Average score
+        $sql = "SELECT AVG(total_score) FROM tryout_sessions 
+                WHERE user_id = :user_id AND status = 'completed'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        $stats['average_score'] = round($stmt->fetchColumn(), 2);
+        
+        // Best ranking
+        $sql = "SELECT MIN(ranking) FROM tryout_sessions 
+                WHERE user_id = :user_id AND status = 'completed' AND ranking IS NOT NULL";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        $stats['best_ranking'] = $stmt->fetchColumn();
+        
+        // Total posts
+        $sql = "SELECT COUNT(*) FROM posts WHERE user_id = :user_id AND status = 'published'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        $stats['total_posts'] = $stmt->fetchColumn();
+        
+        // Total comments
+        $sql = "SELECT COUNT(*) FROM post_comments WHERE user_id = :user_id AND is_deleted = 0";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        $stats['total_comments'] = $stmt->fetchColumn();
+        
+        return $stats;
+    }
+    
+    /**
+     * Get Progress Per Subject (Tryout)
+     */
+    public function getUserSubjectProgress($user_id) {
+        $sql = "SELECT 
+                tq.subject,
+                COUNT(*) as total_questions,
+                SUM(tua.is_correct) as correct_answers,
+                ROUND((SUM(tua.is_correct) / COUNT(*)) * 100, 2) as accuracy_percentage
+                FROM tryout_user_answers tua
+                JOIN tryout_questions tq ON tua.question_id = tq.question_id
+                JOIN tryout_sessions ts ON tua.session_id = ts.session_id
+                WHERE ts.user_id = :user_id
+                GROUP BY tq.subject
+                ORDER BY accuracy_percentage DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['user_id' => $user_id]);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+
+/**
+ * ============================================
+ * CONTOH PENGGUNAAN
+ * ============================================
+ */
+
+// Koneksi database
+$host = 'localhost';
+$dbname = 'iris_education';
+$username = 'root';
+$password = '';
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    $queries = new IRISEducationQueries($conn);
+    
+    // ===== CONTOH 1: Buat Event dan Daftar User =====
+    /*
+    $event_id = $queries->createEvent([
+        'event_name' => 'UTBK Trial #1',
+        'event_type' => 'tryout',
+        'description' => 'Simulasi UTBK pertama tahun ini',
+        'banner_url' => 'https://example.com/banner.jpg',
+        'start_date' => '2024-02-01 09:00:00',
+        'end_date' => '2024-02-01 12:00:00',
+        'registration_start' => '2024-01-15 00:00:00',
+        'registration_end' => '2024-01-31 23:59:59',
+        'max_participants' => 1000,
+        'is_free' => 1,
+        'price' => 0,
+        'status' => 'published',
+        'created_by' => 1
+    ]);
+    
+    $queries->registerUserToEvent($event_id, 2);
+    */
+    
+    // ===== CONTOH 2: Buat Tryout dengan Soal =====
+    /*
+    $tryout_id = $queries->createTryout([
+        'event_id' => $event_id,
+        'tryout_name' => 'UTBK Matematika Dasar',
+        'tryout_code' => 'UTBK2024-001',
+        'description' => 'Tes Matematika Dasar',
+        'test_type' => 'UTBK',
+        'duration_minutes' => 90,
+        'total_questions' => 30,
+        'passing_grade' => 70.00,
+        'start_time' => '2024-02-01 09:00:00',
+        'end_time' => '2024-02-01 12:00:00',
+        'shuffle_questions' => 1,
+        'show_result_immediately' => 0,
+        'created_by' => 1
+    ]);
+    
+    $question_id = $queries->addQuestionToTryout($tryout_id, [
+        'question_text' => 'Berapakah hasil dari 2 + 2?',
+        'question_image_url' => null,
+        'question_type' => 'multiple_choice',
+        'subject' => 'matematika',
+        'difficulty' => 'easy',
+        'points' => 1.00,
+        'order_number' => 1
+    ]);
+    
+    $queries->addAnswerOption($question_id, [
+        'option_label' => 'A',
+        'option_text' => '3',
+        'option_image_url' => null,
+        'is_correct' => 0
+    ]);
+    
+    $queries->addAnswerOption($question_id, [
+        'option_label' => 'B',
+        'option_text' => '4',
+        'option_image_url' => null,
+        'is_correct' => 1
+    ]);
+    */
+    
+    // ===== CONTOH 3: Kerjakan Tryout =====
+    /*
+    $session_id = $queries->startTryoutSession($tryout_id, 2);
+    $tryout_data = $queries->getTryoutWithQuestions($tryout_id, true);
+    
+    // Submit jawaban
+    $queries->submitAnswer($session_id, $question_id, $option_id, 30);
+    
+    // Finish tryout
+    $result = $queries->finishTryoutSession($session_id);
+    
+    // Lihat leaderboard
+    $leaderboard = $queries->getTryoutLeaderboard($tryout_id, 10);
+    */
+    
+    // ===== CONTOH 4: Ruang Curhat =====
+    /*
+    $conversation_id = $queries->startPersonalConversation(2, 1, 'Konsultasi Jurusan');
+    $queries->sendPersonalMessage($conversation_id, 2, 'Halo kak, saya mau konsultasi tentang pilihan jurusan');
+    $messages = $queries->getPersonalConversationMessages($conversation_id, 2);
+    */
+    
+    // ===== CONTOH 5: Group Chat =====
+    /*
+    $group_id = $queries->createGroup('Study Group Matematika', 'Belajar bareng matematika', 'study_group', 1);
+    $queries->addGroupMember($group_id, 2, 'member');
+    $queries->sendGroupMessage($group_id, 1, 'Selamat datang di study group!');
+    $group_data = $queries->getGroupMessages($group_id, 2, 50);
+    */
+    
+    // ===== CONTOH 6: Forum Post & Comment =====
+    /*
+    $post_id = $queries->createPost(2, 'Tips Lolos UTBK', 'Berikut tips saya...', 'discussion', 'study_tips', ['utbk', 'tips']);
+    $queries->addComment($post_id, 3, 'Terima kasih tipsnya!');
+    $queries->likePost($post_id, 3);
+    $posts = $queries->getPosts(1, 20, null, null, 'UTBK');
+    */
+    
+    echo "Query examples ready to use!";
+    
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
