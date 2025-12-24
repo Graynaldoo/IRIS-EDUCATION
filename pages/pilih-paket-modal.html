@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Paket - IRIS Education</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/pilih-paket.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-detail">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <div class="logo">
+                    <div class="logo-outer">
+                        <div class="logo-inner"></div>
+                    </div>
+                    <div class="logo-sparkle">✦</div>
+                </div>
+            </div>
+            
+            <div class="navbar-center">
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Dashboard</a></li>
+                    <li><a href="tryout-saya.html" class="active">TryOut Saya</a></li>
+                    <li><a href="event-saya.html">Event Saya</a></li>
+                    <li><a href="ruang-curhat.html">Ruang Curhat</a></li>
+                    <li><a href="beli-paket.html">Beli Paket</a></li>
+                    <li><a href="riwayat.html">Riwayat</a></li>
+                </ul>
+            </div>
+            
+            <div class="navbar-right">
+                <button class="profile-btn">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bagas" alt="Profile">
+                    <span>Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <button class="back-btn" onclick="window.history.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </button>
+
+        <div class="pilih-paket-card">
+            <div class="header-section">
+                <div class="header-icon">📌</div>
+                <h2>Pilih Paket</h2>
+            </div>
+
+            <div class="paket-list">
+                <!-- Paket Free -->
+                <div class="paket-item" onclick="window.location.href='paket-gratis-tersedia.html'">
+                    <div class="paket-content">
+                        <h3>Paket Free</h3>
+                        <p>Akses gratis untuk tryout dasar</p>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+
+                <!-- Paket Explorer -->
+                <div class="paket-item" onclick="window.location.href='paket-berbayar-tersedia.html'">
+                    <div class="paket-content">
+                        <h3>Paket Explorer</h3>
+                        <p>Lebih banyak fitur dan tryout</p>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+
+                <!-- Paket Achiever -->
+                <div class="paket-item" onclick="window.location.href='paket-berbayar-tersedia.html'">
+                    <div class="paket-content">
+                        <h3>Paket Achiever</h3>
+                        <p>Paket lengkap untuk persiapan optimal</p>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+
+                <!-- Paket Champion -->
+                <div class="paket-item" onclick="window.location.href='paket-berbayar-tersedia.html'">
+                    <div class="paket-content">
+                        <h3>Paket Champion</h3>
+                        <p>Paket premium dengan semua akses</p>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <button class="btn-beli" onclick="window.location.href='beli-paket.html'">
+                Beli Paket
+            </button>
+        </div>
+    </div>
+</body>
+</html>
