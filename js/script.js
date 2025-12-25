@@ -130,3 +130,32 @@ function formatDate(dateString) {
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+// Logout Function
+function logout() {
+    // Hapus semua data login
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('userEmail');
+    sessionStorage.removeItem('userName');
+    
+    // Redirect ke login
+    window.location.href = 'login.html';
+}
+
+// Load user data
+function loadUserData() {
+    const userName = localStorage.getItem('userName') || sessionStorage.getItem('userName');
+    
+    if (userName) {
+        // Update nama user di sidebar
+        const profileNameElements = document.querySelectorAll('.profile-name');
+        profileNameElements.forEach(element => {
+            element.textContent = userName;
+        });
+    }
+}
+
+// Call on page load
+window.addEventListener('DOMContentLoaded', loadUserData);

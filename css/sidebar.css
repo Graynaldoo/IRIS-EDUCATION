@@ -251,12 +251,28 @@
     color: #d8b4fe;
 }
 
-.book-illustration {
-    height: 120px;
-    background: linear-gradient(135deg, #f472b6, #a855f7);
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    color: #ef4444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
 }
 
 /* Collapsed Profile */

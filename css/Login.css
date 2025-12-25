@@ -1,0 +1,220 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #000; 
+    overflow: hidden; 
+}
+
+/* Container utama */
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Panel kiri */
+.left-panel {
+    flex: 1;
+    height: 100vh;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Gambar background */
+.background-img {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+}
+
+/* Tombol kembali */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 3;
+    transition: color 0.3s;
+}
+
+.back-btn:hover {
+    color: #f05a9d;
+}
+
+/* Teks di kiri */
+.text-content {
+    position: absolute;
+    top: 13%;
+    left: 10%;
+    color: #fff;
+    z-index: 2;
+    text-align: left;
+    width: 80%;
+}
+
+.text-content h1 {
+    font-size: 1.8rem;
+    line-height: 1.4;
+    font-weight: 700;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.highlight {
+    color: #FFD700;
+}
+
+/* Panel kanan */
+.right-panel {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* menyatu */
+}
+
+/* Kotak login */
+.login-box {
+    width: 90%;
+    max-width: 380px;
+    background: #000;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Logo */
+.logo {
+    width: 60px;
+    margin-bottom: 15px;
+}
+.brand-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: -25px;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+/* Judul */
+h2 {
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+/* Subtext */
+.subtext {
+    color: #bbb;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+/* Input */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: #ddd;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    outline: none;
+    background-color: #111;
+    color: #fff;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #f05a9d;
+}
+
+/* Remember & forgot */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.options .forgot {
+    color: #f05a9d;
+    text-decoration: none;
+}
+
+/* Tombol Sign In */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #f05a9d;
+    color: white;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #d84a89;
+}
+
+/* Register link */
+.register {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.register a {
+    color: #f05a9d;
+    text-decoration: none;
+}
+
+/* Responsif */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        height: 40vh;
+    }
+
+    .text-content {
+        top: 10%;
+        left: 8%;
+        font-size: 1.1rem;
+    }
+
+    .right-panel {
+        height: 60vh;
+    }
+}
