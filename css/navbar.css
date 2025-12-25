@@ -27,6 +27,7 @@
     gap: 10px;
 }
 
+/* Navbar Left - Pure Logo */
 .navbar-left .logo {
     display: flex;
     align-items: center;
@@ -35,10 +36,10 @@
 }
 
 .logo-outer {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,20 +47,27 @@
 }
 
 .logo-inner {
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* TAMBAHKAN INI - Hilangkan background putih */
+.logo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: lighten; /* Ini yang bikin background putih hilang */
+    filter: brightness(1.1);
 }
 
 .logo-sparkle {
-    position: absolute;
-    right: -5px;
-    top: -5px;
-    color: #fbbf24;
-    font-size: 12px;
+    display: none;
 }
-
 .brand-name {
     font-size: 16px;
     font-weight: 600;
